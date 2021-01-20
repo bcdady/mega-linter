@@ -12,7 +12,7 @@ GITHUB_SHA="${GITHUB_SHA}"             # Sha used to create this branch
 BUILD_DATE="${BUILD_DATE}"             # Date the container was built
 BUILD_REVISION="${GITHUB_SHA}"         # GitHub Sha
 BUILD_VERSION="${GITHUB_SHA}"          # Version of the container
-ORG_REPO="nvuillam/mega-linter"        # Org/repo
+IMAGE_REPO="${IMAGE_REPO}"             # Image repo to upload the image
 ERROR=0                                # Error count
 
 #########################
@@ -43,7 +43,7 @@ ValidateLabel() {
   ########################
   # Get the docker label #
   ########################
-  LABEL=$(docker inspect --format "{{ index .Config.Labels \"${CONTAINER_KEY}\" }}" "${ORG_REPO}:${GITHUB_SHA}")
+  LABEL=$(docker inspect --format "{{ index .Config.Labels \"${CONTAINER_KEY}\" }}" "${IMAGE_REPO}:${GITHUB_SHA}")
 
   ###################
   # Check the value #

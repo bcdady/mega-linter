@@ -3,7 +3,16 @@ set -eu
 
 PYTHONPATH=.
 export PYTHONPATH
-python ./.automation/build.py
+
+# Upgrade pip, just in case
+# https://pip.pypa.io/en/stable/installing/#upgrading-pip
+python3 -m pip install -U pip
+
+# Ensure build requirements (modules, dependencies) are installed
+python3 -m pip install -r requirements.dev.txt
+
+# run the build
+python3 ./.automation/build.py
 
 # Prettify markdown tables
 # shellcheck disable=SC2086

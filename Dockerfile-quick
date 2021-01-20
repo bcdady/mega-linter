@@ -32,7 +32,9 @@ ARG BUILD_VERSION
 #################################################
 # Set ENV values used for debugging the version #
 #################################################
-ENV BUILD_DATE=$BUILD_DATE \
+ENV AUTHOR_NAME_EMAIL=$AUTHOR_NAME_EMAIL \
+    AUTHOR_USERNAME=$AUTHOR_USERNAME \
+    BUILD_DATE=$BUILD_DATE \
     BUILD_REVISION=$BUILD_REVISION \
     BUILD_VERSION=$BUILD_VERSION
 
@@ -41,13 +43,13 @@ ENV MEGALINTER_FLAVOR=all
 #########################################
 # Label the instance and set maintainer #
 #########################################
-LABEL maintainer="Nicolas Vuillamy <nicolas.vuillamy@gmail.com>" \
+LABEL maintainer=$AUTHOR_NAME_EMAIL \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.revision=$BUILD_REVISION \
       org.opencontainers.image.version=$BUILD_VERSION \
-      org.opencontainers.image.authors="Nicolas Vuillamy <nicolas.vuillamy@gmail.com>" \
-      org.opencontainers.image.url="https://nvuillam.github.io/mega-linter" \
-      org.opencontainers.image.source="https://github.com/nvuillam/mega-linter" \
-      org.opencontainers.image.documentation="https://nvuillam.github.io/mega-linter" \
-      org.opencontainers.image.vendor="Nicolas Vuillamy" \
-      org.opencontainers.image.description="Lint your code base with GitHub Actions (DEV VERSION)"
+      org.opencontainers.image.authors=$AUTHOR_NAME_EMAIL \
+      org.opencontainers.image.url="https://" + AUTHOR_USERNAME + ".github.io/mega-linter" \
+      org.opencontainers.image.source="https://github.com/" + AUTHOR_USERNAME + "/mega-linter" \
+      org.opencontainers.image.documentation="https://" + AUTHOR_USERNAME + ".github.io/mega-linter" \
+      org.opencontainers.image.vendor=$AUTHOR_NAME_EMAIL \
+      org.opencontainers.image.description="Lint your code base in any CI pipeline"
