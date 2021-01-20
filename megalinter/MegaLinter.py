@@ -434,7 +434,7 @@ class Megalinter:
             + "] using git diff, then filter with:"
         )
         repo = git.Repo(os.path.realpath(self.github_workspace))
-        default_branch = config.get("DEFAULT_BRANCH", "master")
+        default_branch = config.get("DEFAULT_BRANCH", "main")
         current_branch = config.get("GITHUB_SHA", "")
         if current_branch == "":
             current_branch = repo.active_branch.commit.hexsha
