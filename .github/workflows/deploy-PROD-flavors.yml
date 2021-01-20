@@ -17,8 +17,9 @@ name: "Build & Deploy - PROD Flavors"
 on:
   push:
     branches:
-      - "master"
-      - "FlavoredMegaLinters"
+      - master
+      - main
+      - FlavoredMegaLinters
     paths:
       - "Dockerfile"
       - "megalinter/**"
