@@ -457,6 +457,8 @@ COPY TEMPLATES /action/lib/.automation
 ###########################
 # Get the build arguments #
 ###########################
+ARG AUTHOR_NAME_EMAIL="Nicolas Vuillamy <nicolas.vuillamy@gmail.com>"
+ARG AUTHOR_USERNAME="nvuillam"
 ARG BUILD_DATE
 ARG BUILD_REVISION
 ARG BUILD_VERSION
@@ -464,7 +466,9 @@ ARG BUILD_VERSION
 #################################################
 # Set ENV values used for debugging the version #
 #################################################
-ENV BUILD_DATE=$BUILD_DATE \
+ENV AUTHOR_NAME_EMAIL=$AUTHOR_NAME_EMAIL \
+    AUTHOR_USERNAME=$AUTHOR_USERNAME \
+    BUILD_DATE=$BUILD_DATE \
     BUILD_REVISION=$BUILD_REVISION \
     BUILD_VERSION=$BUILD_VERSION
 
@@ -479,13 +483,13 @@ LABEL com.github.actions.name="Mega-Linter" \
       com.github.actions.description="The ultimate linters aggregator to make sure your projects are clean" \
       com.github.actions.icon="code" \
       com.github.actions.color="red" \
-      maintainer="Nicolas Vuillamy <nicolas.vuillamy@gmail.com>" \
+      maintainer=$AUTHOR_NAME_EMAIL \
       org.opencontainers.image.created=$BUILD_DATE \
       org.opencontainers.image.revision=$BUILD_REVISION \
       org.opencontainers.image.version=$BUILD_VERSION \
-      org.opencontainers.image.authors="Nicolas Vuillamy <nicolas.vuillamy@gmail.com>" \
-      org.opencontainers.image.url="https://nvuillam.github.io/mega-linter" \
-      org.opencontainers.image.source="https://github.com/nvuillam/mega-linter" \
-      org.opencontainers.image.documentation="https://nvuillam.github.io/mega-linter" \
-      org.opencontainers.image.vendor="Nicolas Vuillamy" \
-      org.opencontainers.image.description="Lint your code base with GitHub Actions"
+      org.opencontainers.image.authors=$AUTHOR_NAME_EMAIL \
+      org.opencontainers.image.url="https://" + AUTHOR_USERNAME + ".github.io/mega-linter" \
+      org.opencontainers.image.source="https://github.com/" + AUTHOR_USERNAME + "/mega-linter" \
+      org.opencontainers.image.documentation="https://" + AUTHOR_USERNAME + ".github.io/mega-linter" \
+      org.opencontainers.image.vendor=$AUTHOR_NAME_EMAIL \
+      org.opencontainers.image.description="Lint your code base in any CI pipeline"
