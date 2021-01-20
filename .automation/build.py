@@ -21,10 +21,12 @@ from bs4 import BeautifulSoup
 from giturlparse import parse
 from webpreview import web_preview
 
-BRANCH = "master"
-URL_ROOT = "https://github.com/nvuillam/mega-linter/tree/" + BRANCH
-MKDOCS_URL_ROOT = "https://nvuillam.github.io/mega-linter"
-URL_RAW_ROOT = "https://github.com/nvuillam/mega-linter/raw/" + BRANCH
+USERNAME = "bcdady"
+BRANCH = "main"
+IMAGE_REPO = USERNAME + "/mega-linter"
+URL_ROOT = "https://github.com/" + USERNAME + "/mega-linter/tree/" + BRANCH
+MKDOCS_URL_ROOT = "https://" + USERNAME + ".github.io/mega-linter"
+URL_RAW_ROOT = "https://github.com/" + USERNAME + "/mega-linter/raw/" + BRANCH
 TEMPLATES_URL_ROOT = URL_ROOT + "/TEMPLATES"
 DOCS_URL_ROOT = URL_ROOT + "/docs"
 DOCS_URL_DESCRIPTORS_ROOT = DOCS_URL_ROOT + "/descriptors"
@@ -138,7 +140,7 @@ outputs:
     description: "0 if no source file has been updated, 1 if source files has been updated"
 runs:
   using: "docker"
-  image: "docker://nvuillam/mega-linter-{flavor}:{image_release}"
+  image: "docker://{IMAGE_REPO}-{flavor}:{image_release}"
 branding:
   icon: "check"
   color: "green"
@@ -460,15 +462,14 @@ def generate_descriptor_documentation(descriptor):
 
 
 def generate_flavor_documentation(flavor_id, flavor, linters_tables_md):
-    flavor_github_action = f"nvuillam/mega-linter/flavors/{flavor_id}@v4"
-    flavor_docker_image = f"nvuillam/mega-linter-{flavor_id}:v4"
+    flavor_github_action = f"{IMAGE_REPO}/flavors/{flavor_id}@v4"
+    flavor_docker_image = f"{IMAGE_REPO}-{flavor_id}:v4"
     docker_image_badge = (
         f"![Docker Image Size (tag)]({BASE_SHIELD_IMAGE_LINK}/"
-        f"nvuillam/mega-linter-{flavor_id}/v4)"
+        f"{IMAGE_REPO}-{flavor_id}/v4)"
     )
     docker_pulls_badge = (
-        f"![Docker Pulls]({BASE_SHIELD_COUNT_LINK}/"
-        f"nvuillam/mega-linter-{flavor_id})"
+        f"![Docker Pulls]({BASE_SHIELD_COUNT_LINK}/" f"{IMAGE_REPO}-{flavor_id})"
     )
     flavor_doc_md = [
         f"# {flavor_id} Mega-Linter Flavor",
@@ -1009,13 +1010,11 @@ def build_flavors_md_table(filter_linter_name=None, replace_link=False):
         + +len(linters_by_type["other"])
     )
     docker_image_badge = (
-        f"![Docker Image Size (tag)]({BASE_SHIELD_IMAGE_LINK}/nvuillam/mega-linter/v4)"
+        f"![Docker Image Size (tag)]({BASE_SHIELD_IMAGE_LINK}/{IMAGE_REPO}/v4)"
     )
-    docker_pulls_badge = (
-        f"![Docker Pulls]({BASE_SHIELD_COUNT_LINK}/" f"nvuillam/mega-linter)"
-    )
+    docker_pulls_badge = f"![Docker Pulls]({BASE_SHIELD_COUNT_LINK}/" f"{IMAGE_REPO})"
     md_line_all = (
-        f"| {icon_html} | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | "
+        f"| {icon_html} | [all](https://{USERNAME}.github.io/mega-linter/supported-linters/) | "
         f"Default Mega-Linter Flavor | {str(linters_number)} | {docker_image_badge} {docker_pulls_badge} |"
     )
     md_table += [md_line_all]
@@ -1033,11 +1032,10 @@ def build_flavors_md_table(filter_linter_name=None, replace_link=False):
         flavor_doc_url = f"{DOCS_URL_FLAVORS_ROOT}/{flavor_id}.md"
         docker_image_badge = (
             f"![Docker Image Size (tag)]({BASE_SHIELD_IMAGE_LINK}/"
-            f"nvuillam/mega-linter-{flavor_id}/v4)"
+            f"{IMAGE_REPO}-{flavor_id}/v4)"
         )
         docker_pulls_badge = (
-            f"![Docker Pulls]({BASE_SHIELD_COUNT_LINK}/"
-            f"nvuillam/mega-linter-{flavor_id})"
+            f"![Docker Pulls]({BASE_SHIELD_COUNT_LINK}/" f"{IMAGE_REPO}-{flavor_id})"
         )
         md_line = (
             f"| {icon_html} | [{flavor_id}]({doc_url(flavor_doc_url)}) |"
