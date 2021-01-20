@@ -20,7 +20,7 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
-    if: github.repository == 'nvuillam/mega-linter'
+    if: github.repository == ${{ secrets.IMAGE_REPO }}
     steps:
       - name: automerge
         env:
