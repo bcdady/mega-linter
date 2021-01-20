@@ -19,7 +19,7 @@
 name: "Build & Deploy - DEV"
 on:
   push:
-    branches-ignore: [master, alpha]
+    branches-ignore: [master, main, alpha]
   pull_request:
     branches-ignore: []
 
@@ -127,7 +127,7 @@ jobs:
           # Set the Env Vars
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          IMAGE_REPO: nvuillam/mega-linter
+          IMAGE_REPO: ${{ secrets.IMAGE_REPO }}
           IMAGE_VERSION: ${{steps.image_tag.outputs.tag}}
           DOCKERFILE_PATH: Dockerfile
           REGISTRY: Docker
@@ -151,7 +151,7 @@ jobs:
                 TEST_KEYWORDS_TO_USE=""
             fi
           fi
-          docker run $CI_ENV -e TEST_CASE_RUN=true -e OUTPUT_FORMAT=tap -e OUTPUT_FOLDER=${GITHUB_SHA} -e OUTPUT_DETAILS=detailed -e GITHUB_SHA=${GITHUB_SHA} -e PAT="${{secrets.PAT}}" -e TEST_KEYWORDS="${TEST_KEYWORDS_TO_USE}" -e MEGALINTER_VOLUME_ROOT="${GITHUB_WORKSPACE}" -v "/var/run/docker.sock:/var/run/docker.sock:rw" -v ${GITHUB_WORKSPACE}:/tmp/lint nvuillam/mega-linter:${{steps.image_tag.outputs.tag}}
+          docker run $CI_ENV -e TEST_CASE_RUN=true -e OUTPUT_FORMAT=tap -e OUTPUT_FOLDER=${GITHUB_SHA} -e OUTPUT_DETAILS=detailed -e GITHUB_SHA=${GITHUB_SHA} -e PAT="${{secrets.PAT}}" -e TEST_KEYWORDS="${TEST_KEYWORDS}" -v ${GITHUB_WORKSPACE}:/tmp/lint ${{ secrets.IMAGE_REPO }}:${{steps.image_tag.outputs.tag}}
         timeout-minutes: 30
 
       #####################################
@@ -160,7 +160,7 @@ jobs:
       - name: Run against all code base
         if: "!contains(github.event.head_commit.message, 'quick build')"
         shell: bash
-        run: docker run -e GITHUB_REPOSITORY="${{github.repository}}" -e GITHUB_SHA="${{github.sha}}" -e GITHUB_TOKEN="${{github.token}}" -e GITHUB_RUN_ID="${{github.run_id}}" -e PAT="${{secrets.PAT}}" -v "/var/run/docker.sock:/var/run/docker.sock:rw" -v ${GITHUB_WORKSPACE}:/tmp/lint nvuillam/mega-linter:${{steps.image_tag.outputs.tag}}
+        run: docker run -e GITHUB_REPOSITORY="${{github.repository}}" -e GITHUB_SHA="${{github.sha}}" -e GITHUB_TOKEN="${{github.token}}" -e GITHUB_RUN_ID="${{github.run_id}}" -e PAT="${{secrets.PAT}}" -v ${GITHUB_WORKSPACE}:/tmp/lint ${{ secrets.IMAGE_REPO }}:${{steps.image_tag.outputs.tag}}
         timeout-minutes: 10
 
       # Upload Mega-Linter artifacts
