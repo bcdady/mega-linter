@@ -149,10 +149,7 @@ outputs:
     description: "0 if no source file has been updated, 1 if source files has been updated"
 runs:
   using: "docker"
-  image: "docker://{USERNAME}/mega-linter-{flavor}:{image_release}"
-  args:
-    - "-v"
-    - "/var/run/docker.sock:/var/run/docker.sock:rw"
+  image: "docker://{IMAGE_REPO}-{flavor}:{image_release}"
 branding:
   icon: "check"
   color: "green"
