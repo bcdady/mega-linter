@@ -65,16 +65,20 @@ jobs:
       # Run Linter against Test code base #
       #####################################
       - name: Collect latest versions and help
-          id: compute_versions
-          shell: bash
-        # Upload Mega-Linter artifacts
-          if: ${{ success() }} || ${{ failure() }}
-          uses: actions/upload-artifact@v2
-          with:
-            name: Mega-Linter reports
-            path: |
-              docs
-              report
+        id: compute_versions
+        shell: bash
+        run: docker run -e UPGRADE_LINTERS_VERSION=true -e GITHUB_SHA=${GITHUB_SHA} -e PAT="${{secrets.PAT}}" -e MEGALINTER_VOLUME_ROOT="${GITHUB_WORKSPACE}" -v "/var/run/docker.sock:/var/run/docker.sock:rw" -v ${GITHUB_WORKSPACE}:/tmp/lint nvuillam/mega-linter:auto_update_${GITHUB_SHA}
+        timeout-minutes: 30
+
+      # Upload Mega-Linter artifacts
+      - name: Archive production artifacts
+        if: ${{ success() }} || ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Mega-Linter reports
+          path: |
+            docs
+            report
 
       # Create pull request if there are updates
       - name: Create Pull Request
