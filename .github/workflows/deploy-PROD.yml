@@ -20,6 +20,7 @@ on:
       - master
       - main
     paths:
+      - ".github/workflows/**"
       - "Dockerfile"
       - "flavors/**"
       - "megalinter/**"
