@@ -26,7 +26,7 @@ on:
       - "megalinter/**"
       - "mega-linter-runner/**"
       - "**/linter-versions.json"
-      - "TEMPLATES/**""
+      - "TEMPLATES/**"
 
 ###############
 # Set the Job #
