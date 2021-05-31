@@ -12,6 +12,8 @@ from megalinter import config
 REPO_HOME_DEFAULT = (
     "/tmp/lint"
     if os.path.isdir("/tmp/lint")
+    else os.environ.get("DEFAULT_WORKSPACE")
+    if os.path.isdir(os.environ.get("DEFAULT_WORKSPACE", "null"))
     else os.path.dirname(os.path.abspath(__file__)) + os.path.sep + ".."
 )
 
@@ -43,11 +45,13 @@ def get_excluded_directories():
         ".git",
         ".jekyll-cache",
         ".pytest_cache",
+        ".mypy_cache",
         ".rbenv",
         ".venv",
+        ".terraform",
         ".terragrunt-cache",
         "node_modules",
-        "report",
+        config.get("REPORT_OUTPUT_FOLDER", "report"),
     ]
     excluded_dirs = config.get_list("EXCLUDED_DIRECTORIES", default_excluded_dirs)
     excluded_dirs += config.get_list("ADDITIONAL_EXCLUDED_DIRECTORIES", [])
@@ -84,7 +88,7 @@ def filter_files(
 
     for file in all_files:
         base_file_name = os.path.basename(file)
-        filename, file_extension = os.path.splitext(base_file_name)
+        _, file_extension = os.path.splitext(base_file_name)
 
         if filter_regex_include_object and not filter_regex_include_object.search(file):
             continue
@@ -100,7 +104,7 @@ def filter_files(
                 pass
             elif "*" in file_extensions:
                 pass
-            elif file_names_regex_object.fullmatch(filename):
+            elif file_names_regex_object.fullmatch(base_file_name):
                 pass
             else:
                 continue
@@ -151,7 +155,7 @@ def list_active_reporters_for_scope(scope, reporter_init_params):
     return reporters
 
 
-def check_activation_rules(activation_rules, linter):
+def check_activation_rules(activation_rules, _linter):
     active = False
     for rule in activation_rules:
         if rule["type"] == "variable":

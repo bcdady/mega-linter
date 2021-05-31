@@ -9,7 +9,7 @@
 
 ## cfn-lint documentation
 
-- Version in Mega-Linter: **0.44.4**
+- Version in Mega-Linter: **0.49.2**
 - Visit [Official Web Site](https://github.com/martysweet/cfn-lint#readme){target=_blank}
   - If custom `.cfnlintrc.yml` config file is not found, [.cfnlintrc.yml](https://github.com/nvuillam/mega-linter/tree/master/TEMPLATES/.cfnlintrc.yml){target=_blank} will be used
 - See [Index of problems detected by cfn-lint](https://github.com/martysweet/cfn-lint#what-can-cfn-lint-do){target=_blank}
@@ -21,16 +21,17 @@
 - Enable cfn-lint by adding `CLOUDFORMATION_CFN_LINT` in [ENABLE_LINTERS variable](https://nvuillam.github.io/mega-linter/configuration/#activation-and-deactivation)
 - Disable cfn-lint by adding `CLOUDFORMATION_CFN_LINT` in [DISABLE_LINTERS variable](https://nvuillam.github.io/mega-linter/configuration/#activation-and-deactivation)
 
-| Variable                                     | Description                                                                                                                                                                                  | Default value                                    |
-|----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| CLOUDFORMATION_CFN_LINT_ARGUMENTS            | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
-| CLOUDFORMATION_CFN_LINT_FILTER_REGEX_INCLUDE | Custom regex including filter<br/>Ex: `(src|lib)`                                                                                                                                            | Include every file                               |
-| CLOUDFORMATION_CFN_LINT_FILTER_REGEX_EXCLUDE | Custom regex excluding filter<br/>Ex: `(test|examples)`                                                                                                                                      | Exclude no file                                  |
-| CLOUDFORMATION_CFN_LINT_FILE_EXTENSIONS      | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".yml", ".yaml", ".json"]`                     |
-| CLOUDFORMATION_CFN_LINT_FILE_NAMES_REGEX     | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
-| CLOUDFORMATION_CFN_LINT_CONFIG_FILE          | cfn-lint configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                          | `.cfnlintrc.yml`                                 |
-| CLOUDFORMATION_CFN_LINT_RULES_PATH           | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
-| CLOUDFORMATION_CFN_LINT_DISABLE_ERRORS       | Run linter but consider errors as warnings                                                                                                                                                   | `false`                                          |
+| Variable                                            | Description                                                                                                                                                                                  | Default value                                    |
+|-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| CLOUDFORMATION_CFN_LINT_ARGUMENTS                   | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
+| CLOUDFORMATION_CFN_LINT_FILTER_REGEX_INCLUDE        | Custom regex including filter<br/>Ex: `(src\|lib)`                                                                                                                                           | Include every file                               |
+| CLOUDFORMATION_CFN_LINT_FILTER_REGEX_EXCLUDE        | Custom regex excluding filter<br/>Ex: `(test\|examples)`                                                                                                                                     | Exclude no file                                  |
+| CLOUDFORMATION_CFN_LINT_FILE_EXTENSIONS             | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".yml", ".yaml", ".json"]`                     |
+| CLOUDFORMATION_CFN_LINT_FILE_NAMES_REGEX            | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
+| CLOUDFORMATION_CFN_LINT_CONFIG_FILE                 | cfn-lint configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                          | `.cfnlintrc.yml`                                 |
+| CLOUDFORMATION_CFN_LINT_RULES_PATH                  | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
+| CLOUDFORMATION_CFN_LINT_DISABLE_ERRORS              | Run linter but consider errors as warnings                                                                                                                                                   | `false`                                          |
+| CLOUDFORMATION_CFN_LINT_DISABLE_ERRORS_IF_LESS_THAN | Maximum number of errors allowed                                                                                                                                                             | `0`                                              |
 
 ## IDE Integration
 
@@ -48,7 +49,7 @@ This linter is available in the following flavours
 
 | <!-- -->                                                                                                                                                  | Flavor                                                           | Description                | Embedded linters | Info                                                                                                                                                                   |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|----------------------------|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor | 80               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter) |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor | 88               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter) |
 
 ## Behind the scenes
 
@@ -112,10 +113,13 @@ Standard:
                         RuleId:key=value. Example: E3012:strict=false
   --config-file CONFIG_FILE
                         Specify the cfnlintrc file to use
+  -z CUSTOM_RULES, --custom-rules CUSTOM_RULES
+                        Allows specification of a custom rule file.
   -v, --version         Version of cfn-lint
   --output-file OUTPUT_FILE
                         Writes the output to the specified file, ideal for
                         producing reports
+  --merge-configs       Merges lists between configuration layers
 
 Advanced / Debugging:
   -D, --debug           Enable debug logging

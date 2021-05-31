@@ -4,6 +4,296 @@
 
 Note: Can be used with `nvuillam/mega-linter@insiders` in your GitHub Action mega-linter.yml file, or with `nvuillam/mega-linter@latest` docker image
 
+- Fix [#304](https://github.com/nvuillam/mega-linter/issues/304): Display error message when docker is not found when running mega-linter-runner
+- Calculate sum of docker pulls for main page counter badge
+- Check _RULES_PATH for active_only_if_file_found check ([#418](https://github.com/nvuillam/mega-linter/pull/418), by [Omeed Musavi](https://github.com/omusavi))
+- Upgrade clj-kondo 2021.04.23-alpine
+- Upgrade to python:3.9.5-alpine
+- Partial fix [#481](https://github.com/nvuillam/mega-linter/issues/481): Allow applying fixes on push events ([PR487](https://github.com/nvuillam/mega-linter/pull/487) by [Vít Kučera](https://github.com/vkucera))
+
+- Linter versions upgrades
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.29.2 to **0.29.3** on 2021-05-16
+  - [shfmt](https://github.com/mvdan/sh) from 3.2.4 to **3.3.0** on 2021-05-18
+  - [phpstan](https://phpstan.org/) from 0.12.87 to **0.12.88** on 2021-05-18
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.49.1 to **0.49.2** on 2021-05-19
+  - [cpplint](https://github.com/cpplint/cpplint) from 1.5.4 to **1.5.5** on 2021-05-21
+  - [scalafix](https://scalacenter.github.io/scalafix/) from 0.9.27 to **0.9.28** on 2021-05-21
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 6.3.0 to **6.4.0** on 2021-05-21
+  - [terraform-fmt](https://www.terraform.io/docs/cli/commands/fmt.html) from Terraform.v0.15.3 to **Terraform.v0.15.4** on 2021-05-21
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.29.3 to **0.29.4** on 2021-05-21
+  - [sfdx-scanner-apex](https://forcedotcom.github.io/sfdx-scanner/) from 2.8.0 to **2.9.1** on 2021-05-22
+  - [sfdx-scanner-aura](https://forcedotcom.github.io/sfdx-scanner/) from 2.8.0 to **2.9.1** on 2021-05-22
+  - [sfdx-scanner-lwc](https://forcedotcom.github.io/sfdx-scanner/) from 2.8.0 to **2.9.1** on 2021-05-22
+  - [jscpd](https://github.com/kucherenko/jscpd/tree/master/packages/jscpd) from 3.3.25 to **3.3.26** on 2021-05-24
+  - [eslint](https://eslint.org) from 7.26.0 to **7.27.0** on 2021-05-24
+  - [clj-kondo](https://github.com/borkdude/clj-kondo) from 2021.02.13 to **2021.04.23** on 2021-05-24
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.29.4 to **0.29.5** on 2021-05-24
+<!-- linter-versions-end -->
+
+## [4.34.0] 2021-04-30
+
+- Fix bug in Mega-Linter plugins installation (related to [#PR403](https://github.com/nvuillam/mega-linter/pull/403))
+
+- Linter versions upgrades
+  - [sqlfluff](https://www.sqlfluff.com/) from 0.5.3 to **0.5.5** on 2021-05-14
+  - [hadolint](https://github.com/hadolint/hadolint) from 2.4.0 to **2.4.1** on 2021-05-15
+  - [golangci-lint](https://golangci-lint.run/) from 1.40.0 to **1.40.1** on 2021-05-15
+  - [sqlfluff](https://www.sqlfluff.com/) from 0.5.5 to **0.5.6** on 2021-05-15
+
+## [4.33.0] 2021-04-30
+
+- Split Salesforce sfdx-scanner into pmd, eslint aura and eslint lwc
+
+- Linter versions upgrades
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 6.1.1 to **6.1.2** on 2021-04-20
+  - [stylelint](https://stylelint.io) from 13.12.0 to **13.13.0** on 2021-04-25
+  - [hadolint](https://github.com/hadolint/hadolint) from 2.2.0 to **2.3.0** on 2021-04-25
+  - [eslint](https://eslint.org) from 7.24.0 to **7.25.0** on 2021-04-25
+  - [pylint](https://www.pylint.org) from 2.7.4 to **2.8.0** on 2021-04-25
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 6.1.2 to **6.2.1** on 2021-04-25
+  - [terrascan](https://www.accurics.com/products/terrascan/) from 1.4.0 to **1.5.0** on 2021-04-25
+  - [checkstyle](https://checkstyle.sourceforge.io) from 8.41.1 to **8.42** on 2021-04-25
+  - [pylint](https://www.pylint.org) from 2.8.0 to **2.8.1** on 2021-04-25
+  - [tflint](https://github.com/terraform-linters/tflint) from 0.27.0 to **0.28.0** on 2021-04-25
+  - [pylint](https://www.pylint.org) from 2.8.1 to **2.8.2** on 2021-04-27
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.48.3 to **0.49.0** on 2021-04-28
+  - [phpstan](https://phpstan.org/) from 0.12.84 to **0.12.85** on 2021-04-28
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.28.21 to **0.29.0** on 2021-04-28
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 6.2.1 to **6.3.0** on 2021-04-30
+  - [terrascan](https://www.accurics.com/products/terrascan/) from 1.5.0 to **1.5.1** on 2021-04-30
+
+## [4.32.0] 2021-04-20
+
+- Fix #376 : Link-title to license
+- Add support from prettier as JSON formatter ([#421](https://github.com/nvuillam/mega-linter/pull/421), by [Omeed Musavi](https://github.com/omusavi)
+
+- Linter versions upgrades
+  - [phpstan](https://phpstan.org/) from 0.12.82 to **0.12.83** on 2021-04-03
+  - [markdown-table-formatter](https://www.npmjs.com/package/markdown-table-formatter) from 1.0.4 to **1.1.0** on 2021-04-05
+  - [tflint](https://github.com/terraform-linters/tflint) from 0.25.0 to **0.26.0** on 2021-04-05
+  - [sqlfluff](https://www.sqlfluff.com/) from 0.4.1 to **0.5.0** on 2021-04-06
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.48.1 to **0.48.2** on 2021-04-07
+  - [yamllint](https://yamllint.readthedocs.io/) from 1.26.0 to **1.26.1** on 2021-04-07
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 6.1.0 to **6.1.1** on 2021-04-08
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.28.16 to **0.28.19** on 2021-04-09
+  - [phpcs](https://github.com/squizlabs/PHP_CodeSniffer) from 3.5.8 to **3.6.0** on 2021-04-09
+  - [eslint](https://eslint.org) from 7.23.0 to **7.24.0** on 2021-04-10
+  - [sqlfluff](https://www.sqlfluff.com/) from 0.5.0 to **0.5.1** on 2021-04-10
+  - [protolint](https://github.com/yoheimuta/protolint) from 0.30.1 to **0.31.0** on 2021-04-11
+  - [sqlfluff](https://www.sqlfluff.com/) from 0.5.1 to **0.5.2** on 2021-04-11
+  - [sfdx-scanner](https://forcedotcom.github.io/sfdx-scanner/) from 2.7.0 to **2.8.0** on 2021-04-14
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.28.19 to **0.28.21** on 2021-04-15
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.48.2 to **0.48.3** on 2021-04-17
+  - [flake8](https://flake8.pycqa.org) from 3.9.0 to **3.9.1** on 2021-04-17
+  - [tflint](https://github.com/terraform-linters/tflint) from 0.26.0 to **0.27.0** on 2021-04-19
+  - [hadolint](https://github.com/hadolint/hadolint) from 2.1.0 to **2.2.0** on 2021-04-19
+  - [phpstan](https://phpstan.org/) from 0.12.83 to **0.12.84** on 2021-04-19
+  - [shellcheck](https://github.com/koalaman/shellcheck) from 0.7.1 to **0.7.2** on 2021-04-19
+
+## [4.31.0] 2021-04-03
+
+- Keep license pre-formatted in docs
+- Use Python virtual-environment in dev-dependencies shell example
+- Fix #367 : Display editorconfig-checker version
+- Fix #379 : New configuration FAIL_IF_MISSING_LINTER_IN_FLAVOR
+
+- Linter versions upgrades
+  - [flake8](https://flake8.pycqa.org) from 3.8.4 to **3.9.0** on 2021-03-15
+  - [ktlint](https://ktlint.github.io) from 0.40.0 to **0.41.0** on 2021-03-21
+  - [phpstan](https://phpstan.org/) from 0.12.81 to **0.12.82** on 2021-03-21
+  - [isort](https://pycqa.github.io/isort/) from 5.7.0 to **5.8.0** on 2021-03-21
+  - [sfdx-scanner](https://forcedotcom.github.io/sfdx-scanner/) from 2.6.0 to **2.7.0** on 2021-03-21
+  - [sql-lint](https://github.com/joereynolds/sql-lint) from 0.0.15 to **0.0.16** on 2021-03-21
+  - [swiftlint](https://github.com/realm/SwiftLint) from 0.43.0 to **0.43.1** on 2021-03-21
+  - [editorconfig-checker](https://editorconfig-checker.github.io/) from 0.0.0 to **2.3.4** on 2021-03-22
+  - [ktlint](https://ktlint.github.io) from 0.41.0 to **0.40.0** on 2021-03-22
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.47.2 to **0.48.1** on 2021-03-30
+  - [coffeelint](http://www.coffeelint.org) from 4.1.3 to **4.1.4** on 2021-03-30
+  - [hadolint](https://github.com/hadolint/hadolint) from 1.23.0 to **2.0.0** on 2021-03-30
+  - [golangci-lint](https://golangci-lint.run/) from 1.38.0 to **1.39.0** on 2021-03-30
+  - [checkstyle](https://checkstyle.sourceforge.io) from 8.41 to **8.41.1** on 2021-03-30
+  - [eslint](https://eslint.org) from 7.22.0 to **7.23.0** on 2021-03-30
+  - [kubeval](https://www.kubeval.com/) from 0.15.0 to **0.16.1** on 2021-03-30
+  - [perlcritic](https://metacpan.org/pod/Perl::Critic) from 1.138 to **1.140** on 2021-03-30
+  - [pylint](https://www.pylint.org) from 2.7.2 to **2.7.4** on 2021-03-30
+  - [clippy](https://github.com/rust-lang/rust-clippy) from 0.0.212 to **0.1.51** on 2021-03-30
+  - [scalafix](https://scalacenter.github.io/scalafix/) from 0.9.26 to **0.9.27** on 2021-03-30
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.28.9 to **0.28.16** on 2021-03-30
+  - [kubeval](https://www.kubeval.com/) from 0.16.0 to **0.16.1** on 2021-03-30
+  - [pylint](https://www.pylint.org) from 2.7.3 to **2.7.4** on 2021-03-30
+  - [editorconfig-checker](https://editorconfig-checker.github.io/) from 2.3.4 to **2.3.5** on 2021-03-31
+  - [hadolint](https://github.com/hadolint/hadolint) from 2.0.0 to **2.1.0** on 2021-04-02
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 6.0.5 to **6.1.0** on 2021-04-02
+
+## [4.30.0] 2021-03-14
+
+- Fix #361 - Not respecting `*_DISABLE_ERRORS: false`
+- New variable **FORMATTERS_DISABLE_ERRORS** to force all formatters to be blocking if errors are found
+- Add *.svg in .jscpd (copy-paste detector) default ignore paths
+
+- Linter versions upgrades
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.47.1 to **0.47.2** on 2021-03-13
+  - [eslint](https://eslint.org) from 7.21.0 to **7.22.0** on 2021-03-13
+  - [eslint-plugin-jsonc](https://ota-meshi.github.io/eslint-plugin-jsonc/) from 1.1.0 to **1.2.1** on 2021-03-14
+
+## [4.29.0] 2021-03-12
+
+- Fix regex to list Salesforce errors
+- Fix Updated Files Reporter when Mega-Linter is not running on GitHub Action
+- Fix #359 - invalid literal with _DISABLE_ERRORS_IF_LESS_THAN
+
+- Linter versions upgrades
+  - [clj-kondo](https://github.com/borkdude/clj-kondo) from 2021.01.20 to **2021.02.13** on 2021-03-01
+  - [jscpd](https://github.com/kucherenko/jscpd/tree/master/packages/jscpd) from 3.3.24 to **3.3.25** on 2021-03-06
+  - [hadolint](https://github.com/hadolint/hadolint) from 1.22.1 to **1.23.0** on 2021-03-06
+  - [golangci-lint](https://golangci-lint.run/) from 1.37.1 to **1.38.0** on 2021-03-06
+  - [markdownlint](https://github.com/DavidAnson/markdownlint) from 0.26.0 to **0.27.1** on 2021-03-06
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 6.0.0 to **6.0.2** on 2021-03-06
+  - [sqlfluff](https://www.sqlfluff.com/) from 0.4.0 to **0.4.1** on 2021-03-06
+  - [swiftlint](https://github.com/realm/SwiftLint) from 0.42.0 to **0.43.0** on 2021-03-06
+  - [terrascan](https://www.accurics.com/products/terrascan/) from 1.3.3 to **1.4.0** on 2021-03-06
+  - [stylelint](https://stylelint.io) from 13.11.0 to **13.12.0** on 2021-03-06
+  - [tflint](https://github.com/terraform-linters/tflint) from 0.24.1 to **0.25.0** on 2021-03-06
+  - [shfmt](https://github.com/mvdan/sh) from 3.2.2 to **3.2.4** on 2021-03-10
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.46.0 to **0.47.0** on 2021-03-10
+  - [git_diff](https://git-scm.com) from 2.30.1 to **2.30.2** on 2021-03-10
+  - [phpstan](https://phpstan.org/) from 0.12.80 to **0.12.81** on 2021-03-10
+  - [protolint](https://github.com/yoheimuta/protolint) from 0.29.0 to **0.30.1** on 2021-03-10
+  - [snakefmt](https://github.com/snakemake/snakefmt) from 0.3.1 to **0.4.0** on 2021-03-10
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 6.0.2 to **6.0.3** on 2021-03-10
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.47.0 to **0.47.1** on 2021-03-12
+  - [powershell](https://github.com/PowerShell/PSScriptAnalyzer) from 7.1.2 to **7.1.3** on 2021-03-12
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 6.0.3 to **6.0.5** on 2021-03-12
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.28.6 to **0.28.9** on 2021-03-12
+
+## [4.28.0] 2021-03-01
+
+- Feature: **<LINTER_NAME>_DISABLE_ERRORS_IF_LESS_THAN** : set linter status to warning if maximum allowed errors is not reached
+- Add colors in logs
+
+- Linter versions upgrades
+  - [pylint](https://www.pylint.org) from 2.6.0 to **2.6.2** on 2021-02-16
+  - [golangci-lint](https://golangci-lint.run/) from 1.36.0 to **1.37.0** on 2021-02-19
+  - [phpstan](https://phpstan.org/) from 0.12.76 to **0.12.77** on 2021-02-19
+  - [sfdx-scanner](https://forcedotcom.github.io/sfdx-scanner/) from 2.5.1 to **2.6.0** on 2021-02-19
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.28.2 to **0.28.6** on 2021-02-19
+  - [terrascan](https://www.accurics.com/products/terrascan/) from 1.3.2 to **1.3.3** on 2021-02-19
+  - [stylelint](https://stylelint.io) from 13.10.0 to **13.11.0** on 2021-02-21
+  - [golangci-lint](https://golangci-lint.run/) from 1.37.0 to **1.37.1** on 2021-02-21
+  - [phpstan](https://phpstan.org/) from 0.12.77 to **0.12.78** on 2021-02-21
+  - [pylint](https://www.pylint.org) from 2.6.2 to **2.7.0** on 2021-02-22
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.45.0 to **0.46.0** on 2021-02-24
+  - [pylint](https://www.pylint.org) from 2.7.0 to **2.7.1** on 2021-02-24
+  - [eslint-plugin-jsonc](https://ota-meshi.github.io/eslint-plugin-jsonc/) from 0.9.0 to **1.0.0** on 2021-02-25
+  - [phpstan](https://phpstan.org/) from 0.12.78 to **0.12.79** on 2021-02-25
+  - [protolint](https://github.com/yoheimuta/protolint) from 0.28.2 to **0.29.0** on 2021-02-25
+  - [jscpd](https://github.com/kucherenko/jscpd/tree/master/packages/jscpd) from 3.3.23 to **3.3.24** on 2021-02-28
+  - [eslint](https://eslint.org) from 7.20.0 to **7.21.0** on 2021-02-28
+  - [scalafix](https://scalacenter.github.io/scalafix/) from 0.9.25 to **0.9.26** on 2021-02-28
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 5.32.2 to **6.0.0** on 2021-02-28
+  - [checkstyle](https://checkstyle.sourceforge.io) from 8.40 to **8.41** on 2021-03-01
+  - [eslint-plugin-jsonc](https://ota-meshi.github.io/eslint-plugin-jsonc/) from 1.0.0 to **1.1.0** on 2021-03-01
+  - [phpstan](https://phpstan.org/) from 0.12.79 to **0.12.80** on 2021-03-01
+  - [pylint](https://www.pylint.org) from 2.7.1 to **2.7.2** on 2021-03-01
+  - [clj-kondo](https://github.com/borkdude/clj-kondo) from 2021.01.20 to **2021.02.13** on 2021-03-01
+
+## [4.27.0] 2021-02-16
+
+- Linters
+  - Format YAML with prettier
+
+- Core
+  - Lint docker image using [Dockle](https://github.com/goodwithtech/dockle)
+
+- Fixes
+  - Fix ansible-lint test cases for new version
+  - Update --help expected return code for shfmt ash formatter and revive go linter
+  - Add --write to update files fixed by eslint
+  - Pimp Mega-Linter sources by adding newLines when missing (manually and from build.py) + fix logger initialization error + call python3 by default ([PR329](https://github.com/nvuillam/mega-linter/pull/329) by [Tom Klingenberg](https://github.com/ktomk))
+  - Increase max line length to 500 in yaml-lint default configuration
+
+- Linter versions upgrades
+  - [ansible-lint](https://ansible-lint.readthedocs.io/en/latest/) from 4.2.0 to **5.0.0** on 2021-02-09
+  - [bash-exec](https://tiswww.case.edu/php/chet/bash/bashtop.html) from 5.0.17 to **5.1.0** on 2021-02-09
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.44.6 to **0.44.7** on 2021-02-09
+  - [hadolint](https://github.com/hadolint/hadolint) from 1.21.0 to **1.22.1** on 2021-02-09
+  - [git_diff](https://git-scm.com) from 2.26.2 to **2.30.1** on 2021-02-09
+  - [php](https://www.php.net) from 7.3.26 to **7.4.15** on 2021-02-09
+  - [phpstan](https://phpstan.org/) from 0.12.71 to **0.12.74** on 2021-02-09
+  - [protolint](https://github.com/yoheimuta/protolint) from 0.28.0 to **0.28.2** on 2021-02-09
+  - [lintr](https://github.com/jimhester/lintr) from 2.0.1.9000 to **0.0.0** on 2021-02-09
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 5.32.0 to **5.32.1** on 2021-02-09
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.27.1 to **0.28.2** on 2021-02-09
+  - [ansible-lint](https://ansible-lint.readthedocs.io/en/latest/) from 5.0.0 to **0.0.0** on 2021-02-09
+  - [dotnet-format](https://github.com/dotnet/format) from 4.1.131201 to **5.0.211103** on 2021-02-12
+  - [stylelint](https://stylelint.io) from 13.9.0 to **13.10.0** on 2021-02-12
+  - [phpstan](https://phpstan.org/) from 0.12.74 to **0.12.75** on 2021-02-12
+  - [powershell](https://github.com/PowerShell/PSScriptAnalyzer) from 7.0.4 to **7.1.2** on 2021-02-12
+  - [snakemake](https://snakemake.readthedocs.io/en/stable/) from 5.32.1 to **5.32.2** on 2021-02-12
+  - [coffeelint](http://www.coffeelint.org) from 4.1.2 to **4.1.3** on 2021-02-14
+  - [eslint](https://eslint.org) from 7.19.0 to **7.20.0** on 2021-02-14
+  - [phpstan](https://phpstan.org/) from 0.12.75 to **0.12.76** on 2021-02-14
+  - [black](https://black.readthedocs.io/en/stable/) from 19.10 to **20.8** on 2021-02-15
+  - [snakefmt](https://github.com/snakemake/snakefmt) from 0.2.6 to **0.3.0** on 2021-02-15
+  - [sqlfluff](https://www.sqlfluff.com/) from 0.3.6 to **0.4.0** on 2021-02-15
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.44.7 to **0.45.0** on 2021-02-16
+  - [snakefmt](https://github.com/snakemake/snakefmt) from 0.3.0 to **0.3.1** on 2021-02-16
+
+## [4.26.2] 2021-01-29
+
+- Linter versions upgrades
+  - [shfmt](https://github.com/mvdan/sh) from 3.2.1 to **3.2.2** on 2021-01-30
+  - [yamllint](https://yamllint.readthedocs.io/) from 1.25.0 to **1.26.0** on 2021-01-30
+  - [hadolint](https://github.com/hadolint/hadolint) from 1.20.0 to **1.21.0** on 2021-02-02
+  - [checkstyle](https://checkstyle.sourceforge.io) from 8.39 to **8.40** on 2021-02-02
+  - [eslint](https://eslint.org) from 7.18.0 to **7.19.0** on 2021-02-02
+  - [phpstan](https://phpstan.org/) from 0.12.70 to **0.12.71** on 2021-02-02
+  - [tflint](https://github.com/terraform-linters/tflint) from 0.23.1 to **0.24.1** on 2021-02-02
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.44.5 to **0.44.6** on 2021-02-03
+  - [terrascan](https://www.accurics.com/products/terrascan/) from 1.3.1 to **1.3.2** on 2021-02-04
+
+## [4.26.1] 2021-01-29
+
+- Fixes
+  - Prevent `unexpected token` error using mega-linter-runner on old versions of node
+  - [#293](https://github.com/nvuillam/mega-linter/issues/293) Fix CI for PR from forked repositories
+  - [#295](https://github.com/nvuillam/mega-linter/issues/295) Fix crash when .cspell.json is not parseable (wrong JSON format)
+  - [#311](https://github.com/nvuillam/mega-linter/issues/295) Add java in salesforce flavor descriptor because it is used by Apex PMD
+
+- Linter versions upgrades
+  - [phpstan](https://phpstan.org/) from 0.12.68 to **0.12.69** on 2021-01-24
+  - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.44.4 to **0.44.5** on 2021-01-25
+  - [golangci-lint](https://golangci-lint.run/) from 1.35.2 to **1.36.0** on 2021-01-27
+  - [protolint](https://github.com/yoheimuta/protolint) from 0.27.0 to **0.28.0** on 2021-01-27
+  - [hadolint](https://github.com/hadolint/hadolint) from 1.19.0 to **1.20.0** on 2021-01-28
+  - [phpstan](https://phpstan.org/) from 0.12.69 to **0.12.70** on 2021-01-28
+  - [clj-kondo](https://github.com/borkdude/clj-kondo) from 2020.09.09 to **2021.01.20** on 2021-01-28
+
+## [4.26.0] 2021-01-24
+
+- Core architecture
+  - Manage remote `mega-linter.yml` configuration files
+  - New property **EXTENDS**, allowing to inherit from remote `mega-linter.yml` configuration files
+  - Add docker-in-docker management (reuse running docker instance)
+  - Allow to skip auto apply fixes with commit or PR if latest commit text contains `skip fix`
+  - Provide new issue link to create a new flavor to improve performances
+
+- Linters
+  - Add [revive](https://github.com/mgechev/revive) GO linter
+  - Add [SwiftLint](https://github.com/realm/SwiftLint) for Swift language
+  - New Mega-Linter flavor **swift**
+  - Get correct version for eslint-plugin-jsonc
+
+- Linter versions upgrades
+  - [snakefmt](https://github.com/snakemake/snakefmt) from 0.2.5 to **0.2.6** on 2021-01-22
+  - [terrascan](https://www.accurics.com/products/terrascan/) from 1.3.0 to **1.3.1** on 2021-01-22
+  - [eslint-plugin-jsonc](https://ota-meshi.github.io/eslint-plugin-jsonc/) from 6.14.10 to **0.9.0** on 2021-01-24
+
+## [4.25.0] 2021-01-22
+
+- Linters
+  - Add SQL linter [sqlfluff](https://github.com/sqlfluff/sqlfluff)
+
 - Fixes
   - [#269](https://github.com/nvuillam/mega-linter/issues/269) eslint: .eslintrc.yml is considered as found whereas it's not located in workspace root
 
@@ -13,7 +303,8 @@ Note: Can be used with `nvuillam/mega-linter@insiders` in your GitHub Action meg
   - [terrascan](https://www.accurics.com/products/terrascan/) from 1.2.0 to **1.3.0** on 2021-01-19
   - [cfn-lint](https://github.com/martysweet/cfn-lint) from 0.44.3 to **0.44.4** on 2021-01-19
   - [powershell](https://github.com/PowerShell/PSScriptAnalyzer) from 7.1.1 to **7.0.4** on 2021-01-19
-<!-- linter-versions-end -->
+  - [sfdx-scanner](https://forcedotcom.github.io/sfdx-scanner/) from 2.4.0 to **2.5.1** on 2021-01-21
+  - [terragrunt](https://terragrunt.gruntwork.io) from 0.26.7 to **0.27.1** on 2021-01-22
 
 ## [4.24.1] 2021-01-19
 

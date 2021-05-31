@@ -4,7 +4,7 @@
 
 ## phpstan documentation
 
-- Version in Mega-Linter: **0.12.68**
+- Version in Mega-Linter: **0.12.88**
 - Visit [Official Web Site](https://phpstan.org/){target=_blank}
 - See [How to configure phpstan rules](https://phpstan.org/config-reference#neon-format){target=_blank}
   - If custom `phpstan.neon` config file is not found, [phpstan.neon](https://github.com/nvuillam/mega-linter/tree/master/TEMPLATES/phpstan.neon){target=_blank} will be used
@@ -17,16 +17,17 @@
 - Enable phpstan by adding `PHP_PHPSTAN` in [ENABLE_LINTERS variable](https://nvuillam.github.io/mega-linter/configuration/#activation-and-deactivation)
 - Disable phpstan by adding `PHP_PHPSTAN` in [DISABLE_LINTERS variable](https://nvuillam.github.io/mega-linter/configuration/#activation-and-deactivation)
 
-| Variable                         | Description                                                                                                                                                                                  | Default value                                    |
-|----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| PHP_PHPSTAN_ARGUMENTS            | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
-| PHP_PHPSTAN_FILTER_REGEX_INCLUDE | Custom regex including filter<br/>Ex: `(src|lib)`                                                                                                                                            | Include every file                               |
-| PHP_PHPSTAN_FILTER_REGEX_EXCLUDE | Custom regex excluding filter<br/>Ex: `(test|examples)`                                                                                                                                      | Exclude no file                                  |
-| PHP_PHPSTAN_FILE_EXTENSIONS      | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".php"]`                                       |
-| PHP_PHPSTAN_FILE_NAMES_REGEX     | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
-| PHP_PHPSTAN_CONFIG_FILE          | phpstan configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                           | `phpstan.neon`                                   |
-| PHP_PHPSTAN_RULES_PATH           | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
-| PHP_PHPSTAN_DISABLE_ERRORS       | Run linter but consider errors as warnings                                                                                                                                                   | `false`                                          |
+| Variable                                | Description                                                                                                                                                                                  | Default value                                    |
+|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| PHP_PHPSTAN_ARGUMENTS                   | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
+| PHP_PHPSTAN_FILTER_REGEX_INCLUDE        | Custom regex including filter<br/>Ex: `(src\|lib)`                                                                                                                                           | Include every file                               |
+| PHP_PHPSTAN_FILTER_REGEX_EXCLUDE        | Custom regex excluding filter<br/>Ex: `(test\|examples)`                                                                                                                                     | Exclude no file                                  |
+| PHP_PHPSTAN_FILE_EXTENSIONS             | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".php"]`                                       |
+| PHP_PHPSTAN_FILE_NAMES_REGEX            | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
+| PHP_PHPSTAN_CONFIG_FILE                 | phpstan configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                           | `phpstan.neon`                                   |
+| PHP_PHPSTAN_RULES_PATH                  | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
+| PHP_PHPSTAN_DISABLE_ERRORS              | Run linter but consider errors as warnings                                                                                                                                                   | `false`                                          |
+| PHP_PHPSTAN_DISABLE_ERRORS_IF_LESS_THAN | Maximum number of errors allowed                                                                                                                                                             | `0`                                              |
 
 ## IDE Integration
 
@@ -43,8 +44,8 @@ This linter is available in the following flavours
 
 | <!-- -->                                                                                                                                                  | Flavor                                                           | Description                      | Embedded linters | Info                                                                                                                                                                           |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|----------------------------------|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor       | 80               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter)         |
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/icons/php.ico" alt="" height="32px" class="megalinter-icon"></a>                 | [php](https://nvuillam.github.io/mega-linter/flavors/php/)       | Optimized for PHP based projects | 39               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter-php/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter-php) |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor       | 88               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter)         |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/icons/php.ico" alt="" height="32px" class="megalinter-icon"></a>                 | [php](https://nvuillam.github.io/mega-linter/flavors/php/)       | Optimized for PHP based projects | 42               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter-php/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter-php) |
 
 ## Behind the scenes
 
@@ -70,34 +71,36 @@ phpstan analyse --no-progress --no-ansi -c phpstan.neon myfile.php
 
 ```shell
 Description:
-  Lists commands
+  Analyses source code
 
 Usage:
-  list [options] [--] [<namespace>]
+  analyse [options] [--] [<paths>...]
+  analyze
 
 Arguments:
-  namespace            The namespace name
+  paths                                        Paths with source code to run analysis on
 
 Options:
-      --raw            To output raw command list
-      --format=FORMAT  The output format (txt, xml, json, or md) [default: "txt"]
-
-Help:
-  The list command lists all commands:
-
-    php /root/.composer/vendor/bin/phpstan list
-
-  You can also display the commands for a specific namespace:
-
-    php /root/.composer/vendor/bin/phpstan list test
-
-  You can also output the information in other formats by using the --format option:
-
-    php /root/.composer/vendor/bin/phpstan list --format=xml
-
-  It's also possible to get raw list of commands (useful for embedding command runner):
-
-    php /root/.composer/vendor/bin/phpstan list --raw
+      --paths-file=PATHS-FILE                  Path to a file with a list of paths to run analysis on
+  -c, --configuration=CONFIGURATION            Path to project configuration file
+  -l, --level=LEVEL                            Level of rule options - the higher the stricter
+      --no-progress                            Do not show progress bar, only results
+      --debug                                  Show debug information - which file is analysed, do not catch internal errors
+  -a, --autoload-file=AUTOLOAD-FILE            Project's additional autoload file path
+      --error-format=ERROR-FORMAT              Format in which to print the result of the analysis
+      --generate-baseline[=GENERATE-BASELINE]  Path to a file where the baseline should be saved [default: false]
+      --memory-limit=MEMORY-LIMIT              Memory limit for analysis
+      --xdebug                                 Allow running with XDebug for debugging purposes
+      --fix                                    Launch PHPStan Pro
+      --watch                                  Launch PHPStan Pro
+      --pro                                    Launch PHPStan Pro
+  -h, --help                                   Display this help message
+  -q, --quiet                                  Do not output any message
+  -V, --version                                Display this application version
+      --ansi                                   Force ANSI output
+      --no-ansi                                Disable ANSI output
+  -n, --no-interaction                         Do not ask any interactive question
+  -v|vv|vvv, --verbose                         Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
 
 ### Installation on mega-linter Docker image
@@ -105,8 +108,8 @@ Help:
 - Dockerfile commands :
 ```dockerfile
 # Parent descriptor install
-RUN wget --tries=5 -O phive.phar https://phar.io/releases/phive.phar \
-    && wget --tries=5 -O phive.phar.asc https://phar.io/releases/phive.phar.asc \
+RUN wget --tries=5 -q -O phive.phar https://phar.io/releases/phive.phar \
+    && wget --tries=5 -q -O phive.phar.asc https://phar.io/releases/phive.phar.asc \
     && PHAR_KEY_ID="0x9D8A98B29B2D5D79" \
     && ( gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$PHAR_KEY_ID" \
         || gpg --keyserver pgp.mit.edu --recv-keys "$PHAR_KEY_ID" \

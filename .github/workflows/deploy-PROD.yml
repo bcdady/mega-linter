@@ -20,11 +20,13 @@ on:
       - master
       - main
     paths:
+      - ".github/workflows/**"
       - "Dockerfile"
       - "flavors/**"
       - "megalinter/**"
       - "mega-linter-runner/**"
       - "**/linter-versions.json"
+      - "TEMPLATES/**"
 
 ###############
 # Set the Job #
@@ -55,19 +57,20 @@ jobs:
       # Checkout the code base #
       ##########################
       - name: Checkout Code
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
         with:
           fetch-depth: 0
 
       ########################################################
       # Publish updated version of mega-linter-runner on NPM #
       ########################################################
-      - uses: actions/setup-node@v2.1.3
+      - uses: actions/setup-node@v2.1.5
         with:
           node-version: "12.x"
           registry-url: "https://registry.npmjs.org"
       - run: cd mega-linter-runner && npm install
-      - run: cd mega-linter-runner && npm version prerelease --preid=$(date '+%d-%m-%Y_%H-%M')
+      - run: cd mega-linter-runner && BETAID=$(date '+%Y%m%d%H%M') && npm version prerelease --preid="beta$BETAID"
+        shell: bash
       - run: cd mega-linter-runner && npm publish --tag beta || echo "mega-linter-runner beta not published"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -110,5 +113,18 @@ jobs:
         run: |
           export CI_ENV="$(bash <(curl -s https://codecov.io/env)) -e GITHUB_ACTIONS"
           echo "CI_ENV=${CI_ENV}"
-          docker run $CI_ENV -e TEST_CASE_RUN=true -e OUTPUT_FORMAT=text -e OUTPUT_FOLDER=${GITHUB_SHA} -e OUTPUT_DETAILS=detailed -e GITHUB_SHA=${GITHUB_SHA} -e PAT="${{secrets.PAT}}" -v ${GITHUB_WORKSPACE}:/tmp/lint nvuillam/mega-linter:latest
+          docker run $CI_ENV -e TEST_CASE_RUN=true -e OUTPUT_FORMAT=text -e OUTPUT_FOLDER=${GITHUB_SHA} -e OUTPUT_DETAILS=detailed -e GITHUB_SHA=${GITHUB_SHA} -e PAT="${{secrets.PAT}}" -e MEGALINTER_VOLUME_ROOT="${GITHUB_WORKSPACE}" -v "/var/run/docker.sock:/var/run/docker.sock:rw" -v ${GITHUB_WORKSPACE}:/tmp/lint nvuillam/mega-linter:latest
         timeout-minutes: 30
+
+      ##############################################
+      # Check Docker image consistency with Dockle #
+      ##############################################
+      - name: Check image security with Dockle
+        continue-on-error: true
+        run: |
+          VERSION=$(
+          curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | \
+          grep '"tag_name":' | \
+          sed -E 's/.*"v([^"]+)".*/\1/' \
+          ) && docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+            goodwithtech/dockle:v${VERSION} nvuillam/mega-linter:latest

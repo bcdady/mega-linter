@@ -4,7 +4,7 @@
 
 ## dotnet-format documentation
 
-- Version in Mega-Linter: **4.1.131201**
+- Version in Mega-Linter: **000**
 - Visit [Official Web Site](https://github.com/dotnet/format#readme){target=_blank}
 
 [![format - GitHub](https://gh-card.dev/repos/dotnet/format.svg?fullname=)](https://github.com/dotnet/format){target=_blank}
@@ -16,14 +16,15 @@
 
 - Enable **auto-fixes** by adding `VBDOTNET_DOTNET_FORMAT` in [APPLY_FIXES variable](https://nvuillam.github.io/mega-linter/configuration/#apply-fixes)
 
-| Variable                                    | Description                                                                                                                                                                                  | Default value      |
-|---------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
-| VBDOTNET_DOTNET_FORMAT_ARGUMENTS            | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                    |
-| VBDOTNET_DOTNET_FORMAT_FILTER_REGEX_INCLUDE | Custom regex including filter<br/>Ex: `(src|lib)`                                                                                                                                            | Include every file |
-| VBDOTNET_DOTNET_FORMAT_FILTER_REGEX_EXCLUDE | Custom regex excluding filter<br/>Ex: `(test|examples)`                                                                                                                                      | Exclude no file    |
-| VBDOTNET_DOTNET_FORMAT_FILE_EXTENSIONS      | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".vb"]`          |
-| VBDOTNET_DOTNET_FORMAT_FILE_NAMES_REGEX     | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file |
-| VBDOTNET_DOTNET_FORMAT_DISABLE_ERRORS       | Run linter but consider errors as warnings                                                                                                                                                   | `true`             |
+| Variable                                           | Description                                                                                                                                                                                  | Default value      |
+|----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
+| VBDOTNET_DOTNET_FORMAT_ARGUMENTS                   | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                    |
+| VBDOTNET_DOTNET_FORMAT_FILTER_REGEX_INCLUDE        | Custom regex including filter<br/>Ex: `(src\|lib)`                                                                                                                                           | Include every file |
+| VBDOTNET_DOTNET_FORMAT_FILTER_REGEX_EXCLUDE        | Custom regex excluding filter<br/>Ex: `(test\|examples)`                                                                                                                                     | Exclude no file    |
+| VBDOTNET_DOTNET_FORMAT_FILE_EXTENSIONS             | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".vb"]`          |
+| VBDOTNET_DOTNET_FORMAT_FILE_NAMES_REGEX            | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file |
+| VBDOTNET_DOTNET_FORMAT_DISABLE_ERRORS              | Run linter but consider errors as warnings                                                                                                                                                   | `true`             |
+| VBDOTNET_DOTNET_FORMAT_DISABLE_ERRORS_IF_LESS_THAN | Maximum number of errors allowed                                                                                                                                                             | `0`                |
 
 ## Mega-Linter Flavours
 
@@ -31,8 +32,8 @@ This linter is available in the following flavours
 
 | <!-- -->                                                                                                                                                  | Flavor                                                           | Description                                   | Embedded linters | Info                                                                                                                                                                                 |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|-----------------------------------------------|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor                    | 80               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter)               |
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/icons/dotnet.ico" alt="" height="32px" class="megalinter-icon"></a>              | [dotnet](https://nvuillam.github.io/mega-linter/flavors/dotnet/) | Optimized for C, C++, C# or VB based projects | 41               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter-dotnet/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter-dotnet) |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor                    | 88               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter)               |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/icons/dotnet.ico" alt="" height="32px" class="megalinter-icon"></a>              | [dotnet](https://nvuillam.github.io/mega-linter/flavors/dotnet/) | Optimized for C, C++, C# or VB based projects | 44               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter-dotnet/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter-dotnet) |
 
 ## Behind the scenes
 
@@ -57,155 +58,30 @@ dotnet-format --folder --exclude / --include myfile.vb
 ### Help content
 
 ```shell
-dotnet-format:
-
+dotnet-format
   dotnet-format
 
 Usage:
-
-  dotnet-format
-  [options]
-  [<project>]
+  dotnet-format [options] [<workspace>]
 
 Arguments:
-  <project>
-               The
-               solution
-               or
-               project
-               file
-               to
-               operate
-               on.
-               If
-               a
-               file
-               is
-               not
-               specified,
-               the
-               command
-               will
-               search
-               the
-               current
-               directory
-               for
-               one.
+  <workspace>  A path to a solution file, a project file, or a folder containing a solution or project file. If a path is not specified then the current directory is used. [default: ]
 
 Options:
-  -f, --folder <folder>
-                                  Whether
-                                  to
-                                  treat
-                                  the
-                                  `<project>`
-                                  path
-                                  as
-                                  a
-                                  folder
-                                  of
-                                  files.
-                                  [default:
-                                  ]
-  --files, --include <include>
-                                  A
-                                  list
-                                  of
-                                  relative
-                                  file
-                                  or
-                                  folder
-                                  paths
-                                  to
-                                  include
-                                  in
-                                  formatting.
-                                  All
-                                  files
-                                  are
-                                  formatted
-                                  if
-                                  empty.
-                                  [default:
-                                  System.String[]]
-  --exclude <exclude>
-                                  A
-                                  list
-                                  of
-                                  relative
-                                  file
-                                  or
-                                  folder
-                                  paths
-                                  to
-                                  exclude
-                                  from
-                                  formatting.
-                                  [default:
-                                  System.String[]]
-  --check, --dry-run
-                                  Formats
-                                  files
-                                  without
-                                  saving
-                                  changes
-                                  to
-                                  disk.
-                                  Terminates
-                                  with
-                                  a
-                                  non-zero
-                                  exit
-                                  code
-                                  if
-                                  any
-                                  files
-                                  were
-                                  formatted.
-  --report <report>
-                                  Accepts
-                                  a
-                                  file
-                                  path,
-                                  which
-                                  if
-                                  provided,
-                                  will
-                                  produce
-                                  a
-                                  json
-                                  report
-                                  in
-                                  the
-                                  given
-                                  directory.
-                                  [default:
-                                  ]
-  -v, --verbosity <verbosity>
-                                  Set
-                                  the
-                                  verbosity
-                                  level.
-                                  Allowed
-                                  values
-                                  are
-                                  q[uiet],
-                                  m[inimal],
-                                  n[ormal],
-                                  d[etailed],
-                                  and
-                                  diag[nostic]
-  --version
-                                  Show
-                                  version
-                                  information
-  -?, -h, --help
-                                  Show
-                                  help
-                                  and
-                                  usage
-                                  information
+  --no-restore                                                             Doesn't execute an implicit restore before formatting.
+  -f, --folder                                                             Whether to treat the `<workspace>` argument as a simple folder of files.
+  -w, --fix-whitespace                                                     Run whitespace formatting. Run by default when not applying fixes.
+  -s, --fix-style <error|info|warn>                                        Run code style analyzers and apply fixes.
+  -a, --fix-analyzers <error|info|warn>                                    Run 3rd party analyzers and apply fixes.
+  --diagnostics <diagnostics>                                              A space separated list of diagnostic ids to use as a filter when fixing code style or 3rd party issues. [default: ]
+  --include <include>                                                      A list of relative file or folder paths to include in formatting. All files are formatted if empty. [default: ]
+  --exclude <exclude>                                                      A list of relative file or folder paths to exclude from formatting. [default: ]
+  --check                                                                  Formats files without saving changes to disk. Terminates with a non-zero exit code if any files were formatted.
+  --report <report-path>                                                   Accepts a file path, which if provided, will produce a json report in the given directory.
+  -v, --verbosity <d|detailed|diag|diagnostic|m|minimal|n|normal|q|quiet>  Set the verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic]
+  --binarylog <binary-log-path>                                            Log all project or solution load information to a binary log file.
+  --version                                                                Show version information
+  -?, -h, --help                                                           Show help and usage information
 
 ```
 

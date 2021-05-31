@@ -254,6 +254,11 @@
     "image": "https://raw.githubusercontent.com/remarkjs/remark/website/screenshot.png",
     "title": "remark"
   },
+  "revive": {
+    "description": "Revive documentation website",
+    "image": null,
+    "title": "revive - fast & configurable linter for Go"
+  },
   "rst-lint": {
     "description": "reStructuredText linter. Contribute to twolfson/restructuredtext-lint development by creating an account on GitHub.",
     "image": "https://avatars2.githubusercontent.com/u/902488?s=400&v=4",
@@ -289,6 +294,21 @@
     "image": null,
     "title": "Salesforce CLI Scanner Plug-In"
   },
+  "sfdx-scanner-apex": {
+    "description": "",
+    "image": null,
+    "title": "Salesforce CLI Scanner Plug-In"
+  },
+  "sfdx-scanner-aura": {
+    "description": "",
+    "image": null,
+    "title": "Salesforce CLI Scanner Plug-In"
+  },
+  "sfdx-scanner-lwc": {
+    "description": "",
+    "image": null,
+    "title": "Salesforce CLI Scanner Plug-In"
+  },
   "shellcheck": {
     "description": "ShellCheck, a static analysis tool for shell scripts - koalaman/shellcheck",
     "image": "https://avatars2.githubusercontent.com/u/2818758?s=400&v=4",
@@ -319,6 +339,11 @@
     "image": "https://avatars3.githubusercontent.com/u/9536682?s=400&v=4",
     "title": "joereynolds/sql-lint"
   },
+  "sqlfluff": {
+    "description": "\u00f0\u009f\u0093\u009c The SQL Linter for humans",
+    "image": null,
+    "title": "sqlfluff"
+  },
   "standard": {
     "description": "\ud83c\udf1f JavaScript Style Guide, with linter & automatic code fixer - standard/standard",
     "image": "https://avatars3.githubusercontent.com/u/29208316?s=400&v=4",
@@ -329,10 +354,20 @@
     "image": null,
     "title": "A mighty, modern style linter \u00b7 stylelint"
   },
+  "swiftlint": {
+    "description": "A tool to enforce Swift style and conventions. Contribute to realm/SwiftLint development by creating an account on GitHub.",
+    "image": "https://avatars3.githubusercontent.com/u/7575099?s=400&v=4",
+    "title": "realm/SwiftLint"
+  },
   "tekton-lint": {
     "description": "Linter for Tekton definitions. Contribute to IBM/tekton-lint development by creating an account on GitHub.",
     "image": "https://avatars0.githubusercontent.com/u/1459110?s=400&v=4",
     "title": "IBM/tekton-lint"
+  },
+  "terraform-fmt": {
+    "description": "The `terraform fmt` command is used to rewrite Terraform configuration files to a canonical format and style.",
+    "image": "https://www.terraform.io/assets/images/og-image-8b3e4f7d.png",
+    "title": "Command: fmt - Terraform by HashiCorp"
   },
   "terragrunt": {
     "description": "Terragrunt is a thin wrapper for Terraform that provides extra tools for keeping your Terraform configurations DRY, working with multiple Terraform modules, and managing remote state.",

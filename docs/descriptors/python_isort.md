@@ -9,7 +9,7 @@
 
 ## isort documentation
 
-- Version in Mega-Linter: **5.7.0**
+- Version in Mega-Linter: **5.8.0**
 - Visit [Official Web Site](https://pycqa.github.io/isort/){target=_blank}
 - See [How to configure isort rules](https://pycqa.github.io/isort/docs/configuration/config_files/){target=_blank}
   - If custom `.isort.cfg` config file is not found, [.isort.cfg](https://github.com/nvuillam/mega-linter/tree/master/TEMPLATES/.isort.cfg){target=_blank} will be used
@@ -24,16 +24,17 @@
 
 - Enable **auto-fixes** by adding `PYTHON_ISORT` in [APPLY_FIXES variable](https://nvuillam.github.io/mega-linter/configuration/#apply-fixes)
 
-| Variable                          | Description                                                                                                                                                                                  | Default value                                    |
-|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| PYTHON_ISORT_ARGUMENTS            | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
-| PYTHON_ISORT_FILTER_REGEX_INCLUDE | Custom regex including filter<br/>Ex: `(src|lib)`                                                                                                                                            | Include every file                               |
-| PYTHON_ISORT_FILTER_REGEX_EXCLUDE | Custom regex excluding filter<br/>Ex: `(test|examples)`                                                                                                                                      | Exclude no file                                  |
-| PYTHON_ISORT_FILE_EXTENSIONS      | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".py"]`                                        |
-| PYTHON_ISORT_FILE_NAMES_REGEX     | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
-| PYTHON_ISORT_CONFIG_FILE          | isort configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                             | `.isort.cfg`                                     |
-| PYTHON_ISORT_RULES_PATH           | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
-| PYTHON_ISORT_DISABLE_ERRORS       | Run linter but consider errors as warnings                                                                                                                                                   | `true`                                           |
+| Variable                                 | Description                                                                                                                                                                                  | Default value                                    |
+|------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| PYTHON_ISORT_ARGUMENTS                   | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
+| PYTHON_ISORT_FILTER_REGEX_INCLUDE        | Custom regex including filter<br/>Ex: `(src\|lib)`                                                                                                                                           | Include every file                               |
+| PYTHON_ISORT_FILTER_REGEX_EXCLUDE        | Custom regex excluding filter<br/>Ex: `(test\|examples)`                                                                                                                                     | Exclude no file                                  |
+| PYTHON_ISORT_FILE_EXTENSIONS             | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".py"]`                                        |
+| PYTHON_ISORT_FILE_NAMES_REGEX            | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
+| PYTHON_ISORT_CONFIG_FILE                 | isort configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                             | `.isort.cfg`                                     |
+| PYTHON_ISORT_RULES_PATH                  | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
+| PYTHON_ISORT_DISABLE_ERRORS              | Run linter but consider errors as warnings                                                                                                                                                   | `true`                                           |
+| PYTHON_ISORT_DISABLE_ERRORS_IF_LESS_THAN | Maximum number of errors allowed                                                                                                                                                             | `0`                                              |
 
 ## IDE Integration
 
@@ -55,8 +56,8 @@ This linter is available in the following flavours
 
 | <!-- -->                                                                                                                                                  | Flavor                                                           | Description                         | Embedded linters | Info                                                                                                                                                                                 |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|-------------------------------------|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor          | 80               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter)               |
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/icons/python.ico" alt="" height="32px" class="megalinter-icon"></a>              | [python](https://nvuillam.github.io/mega-linter/flavors/python/) | Optimized for PYTHON based projects | 42               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter-python/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter-python) |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor          | 88               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter)               |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/icons/python.ico" alt="" height="32px" class="megalinter-icon"></a>              | [python](https://nvuillam.github.io/mega-linter/flavors/python/) | Optimized for PYTHON based projects | 45               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter-python/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter-python) |
 
 ## Behind the scenes
 
@@ -86,26 +87,28 @@ isort --profile black --settings-file .isort.cfg myfile.py
 
 ```shell
 usage: isort [-h] [-V] [--vn] [-v] [--only-modified] [--dedup-headings] [-q]
-             [-d] [--show-config] [--show-files] [--df] [-c] [--ws]
-             [--sp SETTINGS_PATH] [--profile PROFILE] [--old-finders]
-             [-j JOBS] [--ac] [--interactive] [--filter-files] [-s SKIP]
-             [--sg SKIP_GLOB] [--gitignore] [--ext SUPPORTED_EXTENSIONS]
+             [-d] [--overwrite-in-place] [--show-config] [--show-files] [--df]
+             [-c] [--ws] [--sp SETTINGS_PATH] [--profile PROFILE]
+             [--old-finders] [-j [JOBS]] [--ac] [--interactive]
+             [--filter-files] [-s SKIP] [--extend-skip EXTEND_SKIP]
+             [--sg SKIP_GLOB] [--extend-skip-glob SKIP_GLOB] [--gitignore]
+             [--ext SUPPORTED_EXTENSIONS]
              [--blocked-extension BLOCKED_EXTENSIONS] [--dont-follow-links]
-             [--filename FILENAME] [-a ADD_IMPORTS] [--append] [--af]
-             [--rm REMOVE_IMPORTS] [--float-to-top] [--dont-float-to-top]
-             [--ca] [--cs] [-e] [--ff FROM_FIRST] [--fgw [FORCE_GRID_WRAP]]
-             [-i INDENT] [--lai LINES_AFTER_IMPORTS]
+             [--filename FILENAME] [--allow-root] [-a ADD_IMPORTS] [--append]
+             [--af] [--rm REMOVE_IMPORTS] [--float-to-top]
+             [--dont-float-to-top] [--ca] [--cs] [-e] [--ff FROM_FIRST]
+             [--fgw [FORCE_GRID_WRAP]] [-i INDENT] [--lai LINES_AFTER_IMPORTS]
              [--lbt LINES_BETWEEN_TYPES] [--le LINE_ENDING] [--ls] [--lss]
              [-m {GRID,VERTICAL,HANGING_INDENT,VERTICAL_HANGING_INDENT,VERTICAL_GRID,VERTICAL_GRID_GROUPED,VERTICAL_GRID_GROUPED_NO_COMMA,NOQA,VERTICAL_HANGING_INDENT_BRACKET,VERTICAL_PREFIX_FROM_MODULE_IMPORT,HANGING_INDENT_WITH_PARENTHESES,BACKSLASH_GRID,0,1,2,3,4,5,6,7,8,9,10,11}]
-             [-n] [--nis] [--ot] [--dt] [--rr] [--sl]
+             [-n] [--nis] [--ot] [--dt] [--rr] [--reverse-sort] [--sl]
              [--nsl SINGLE_LINE_EXCLUSIONS] [--tc] [--up] [-l LINE_LENGTH]
              [--wl WRAP_LENGTH] [--case-sensitive]
              [--remove-redundant-aliases] [--honor-noqa]
              [--treat-comment-as-code TREAT_COMMENTS_AS_CODE]
              [--treat-all-comment-as-code] [--formatter FORMATTER] [--color]
-             [--ext-format EXT_FORMAT] [--sd DEFAULT_SECTION]
-             [--only-sections] [--ds] [--fas] [--fss] [--fass]
-             [-t FORCE_TO_TOP] [--combine-straight-imports]
+             [--ext-format EXT_FORMAT] [--star-first] [--sd DEFAULT_SECTION]
+             [--only-sections] [--ds] [--fas] [--fss] [--hcss] [--srss]
+             [--fass] [-t FORCE_TO_TOP] [--combine-straight-imports]
              [--nlb NO_LINES_BEFORE] [--src SRC_PATHS]
              [-b KNOWN_STANDARD_LIBRARY]
              [--extra-builtin EXTRA_STANDARD_LIBRARY]
@@ -113,7 +116,7 @@ usage: isort [-h] [-V] [--vn] [-v] [--only-modified] [--dedup-headings] [-q]
              [-p KNOWN_FIRST_PARTY] [--known-local-folder KNOWN_LOCAL_FOLDER]
              [--virtual-env VIRTUAL_ENV] [--conda-env CONDA_ENV]
              [--py {all,2,27,3,35,36,37,38,39,auto}]
-             [files [files ...]]
+             [files ...]
 
 Sort Python import definitions alphabetically within logical sections. Run
 with no arguments to see a quick start guide, otherwise, one or more
@@ -137,6 +140,10 @@ general options:
                         sections with the comment set.
   -q, --quiet           Shows extra quiet output, only errors are outputted.
   -d, --stdout          Force resulting output to stdout, instead of in-place.
+  --overwrite-in-place  Tells isort to overwrite in place using the same file
+                        handle.Comes at a performance and memory usage penalty
+                        over it's standard approach but ensures all file flags
+                        and modes stay unchanged.
   --show-config         See isort's determined config, as well as sources of
                         config options.
   --show-files          See the files isort will be ran against with the
@@ -156,11 +163,13 @@ general options:
                         auto determining based on file location.
   --profile PROFILE     Base profile type to use for configuration. Profiles
                         include: black, django, pycharm, google, open_stack,
-                        plone, attrs, hug. As well as any shared profiles.
+                        plone, attrs, hug, wemake. As well as any shared
+                        profiles.
   --old-finders, --magic-placement
                         Use the old deprecated finder logic that relies on
                         environment introspection magic.
-  -j JOBS, --jobs JOBS  Number of files to process in parallel.
+  -j [JOBS], --jobs [JOBS]
+                        Number of files to process in parallel.
   --ac, --atomic        Ensures the output doesn't save if the resulting file
                         contains syntax errors.
   --interactive         Tells isort to apply changes interactively.
@@ -170,11 +179,23 @@ target options:
                         imports sorted.
   --filter-files        Tells isort to filter files even when they are
                         explicitly passed in as part of the CLI command.
-  -s SKIP, --skip SKIP  Files that sort imports should skip over. If you want
-                        to skip multiple files you should specify twice:
-                        --skip file1 --skip file2.
+  -s SKIP, --skip SKIP  Files that isort should skip over. If you want to skip
+                        multiple files you should specify twice: --skip file1
+                        --skip file2. Values can be file names, directory
+                        names or file paths. To skip all files in a nested
+                        path use --skip-glob.
+  --extend-skip EXTEND_SKIP
+                        Extends --skip to add additional files that isort
+                        should skip over. If you want to skip multiple files
+                        you should specify twice: --skip file1 --skip file2.
+                        Values can be file names, directory names or file
+                        paths. To skip all files in a nested path use --skip-
+                        glob.
   --sg SKIP_GLOB, --skip-glob SKIP_GLOB
-                        Files that sort imports should skip over.
+                        Files that isort should skip over.
+  --extend-skip-glob SKIP_GLOB
+                        Additional files that isort should skip over
+                        (extending --skip-glob).
   --gitignore, --skip-gitignore
                         Treat project as a git repository and ignore files
                         listed in .gitignore
@@ -186,6 +207,8 @@ target options:
   --dont-follow-links   Tells isort not to follow symlinks that are
                         encountered when running recursively.
   --filename FILENAME   Provide the filename associated with a stream.
+  --allow-root          Tells isort not to treat / specially, allowing it to
+                        be ran against the root dir.
 
 general output options:
   -a ADD_IMPORTS, --add-import ADD_IMPORTS
@@ -236,9 +259,9 @@ general output options:
   -m {GRID,VERTICAL,HANGING_INDENT,VERTICAL_HANGING_INDENT,VERTICAL_GRID,VERTICAL_GRID_GROUPED,VERTICAL_GRID_GROUPED_NO_COMMA,NOQA,VERTICAL_HANGING_INDENT_BRACKET,VERTICAL_PREFIX_FROM_MODULE_IMPORT,HANGING_INDENT_WITH_PARENTHESES,BACKSLASH_GRID,0,1,2,3,4,5,6,7,8,9,10,11}, --multi-line {GRID,VERTICAL,HANGING_INDENT,VERTICAL_HANGING_INDENT,VERTICAL_GRID,VERTICAL_GRID_GROUPED,VERTICAL_GRID_GROUPED_NO_COMMA,NOQA,VERTICAL_HANGING_INDENT_BRACKET,VERTICAL_PREFIX_FROM_MODULE_IMPORT,HANGING_INDENT_WITH_PARENTHESES,BACKSLASH_GRID,0,1,2,3,4,5,6,7,8,9,10,11}
                         Multi line output (0-grid, 1-vertical, 2-hanging,
                         3-vert-hanging, 4-vert-grid, 5-vert-grid-grouped,
-                        6-vert-grid-grouped-no-comma, 7-noqa, 8-vertical-
-                        hanging-indent-bracket, 9-vertical-prefix-from-module-
-                        import, 10-hanging-indent-with-parentheses).
+                        6-deprecated-alias-for-5, 7-noqa, 8-vertical-hanging-
+                        indent-bracket, 9-vertical-prefix-from-module-import,
+                        10-hanging-indent-with-parentheses).
   -n, --ensure-newline-before-comments
                         Inserts a blank line before a comment following an
                         import.
@@ -270,6 +293,7 @@ general output options:
                         using `--order-by-type`.
   --rr, --reverse-relative
                         Reverse order of relative imports.
+  --reverse-sort        Reverses the ordering of imports.
   --sl, --force-single-line-imports
                         Forces all from imports to appear on their own line
   --nsl SINGLE_LINE_EXCLUSIONS, --single-line-exclusions SINGLE_LINE_EXCLUSIONS
@@ -314,6 +338,8 @@ general output options:
   --ext-format EXT_FORMAT
                         Tells isort to format the given files according to an
                         extensions formatting rules.
+  --star-first          Forces star imports above others to avoid overriding
+                        directly imported variables.
 
 section output options:
   --sd DEFAULT_SECTION, --section-default DEFAULT_SECTION
@@ -333,6 +359,14 @@ section output options:
                         before from-style imports (like from itertools import
                         groupby). Instead, sort the imports by module,
                         independent of import style.
+  --hcss, --honor-case-in-force-sorted-sections
+                        Honor `--case-sensitive` when `--force-sort-within-
+                        sections` is being used. Without this option set,
+                        `--order-by-type` decides module name ordering too.
+  --srss, --sort-relative-in-force-sorted-sections
+                        When using `--force-sort-within-sections`, sort
+                        relative imports the same way as they are sorted when
+                        not using that setting.
   --fass, --force-alphabetical-sort-within-sections
                         Force all imports to be sorted alphabetically within a
                         section
@@ -389,7 +423,7 @@ section output options:
                         Python 3 version could be the target, and use a union
                         of all stdlib modules across versions. If auto is
                         specified, the version of the interpreter used to run
-                        isort (currently: 38) will be used.
+                        isort (currently: 39) will be used.
 ```
 
 ### Installation on mega-linter Docker image

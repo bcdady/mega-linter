@@ -336,12 +336,13 @@ class Megalinter:
         all_linters = linter_factory.list_all_linters(linter_init_params)
         skipped_linters = []
         for linter in all_linters:
-            if linter.is_active is False:
+            if linter.is_active is False or linter.disabled is True:
                 skipped_linters += [linter.name]
                 continue
             self.linters += [linter]
         # Display skipped linters in log
-        if len(skipped_linters) > 0:
+        show_skipped_linters = config.get("SHOW_SKIPPED_LINTERS", "true") == "true"
+        if len(skipped_linters) > 0 and show_skipped_linters:
             skipped_linters.sort()
             logging.info("Skipped linters: " + ", ".join(skipped_linters))
         # Sort linters by language and linter_name

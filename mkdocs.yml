@@ -4,7 +4,7 @@ repo_url: https://github.com/nvuillam/mega-linter
 edit_uri: tree/master/docs
 site_author: Nicolas Vuillamy
 # site_description-start
-site_description: Mega-Linter is an 100% Open-Source tool for CI/CD workflows that analyzes consistency and quality of 40 languages, 20 formats, 16 tooling formats , abusive copy-pastes and spelling mistakes in your repository sources, generates various reports, and can even apply formatting and auto-fixes, to ensure all your projects sources are clean, whatever IDE/toolbox are used by their developers.Ready to use out of the box as a GitHub Action or any CI system, highly configurable and free for all uses
+site_description: Mega-Linter is an 100% Open-Source tool for CI/CD workflows that analyzes consistency and quality of 45 languages, 22 formats, 17 tooling formats , abusive copy-pastes and spelling mistakes in your repository sources, generates various reports, and can even apply formatting and auto-fixes, to ensure all your projects sources are clean, whatever IDE/toolbox are used by their developers.Ready to use out of the box as a GitHub Action or any CI system, highly configurable and free for all uses
 # site_description-end
 copyright: Copyright &copy; 2020 <a href="https://github.com/nvuillam">Nicolas Vuillamy</a>
 theme:
@@ -20,6 +20,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.snippets:
+      base_path: docs
+      check_paths: true
   - mdx_truly_sane_lists
   - attr_list
 extra_javascript:
@@ -48,7 +51,7 @@ nav:
   - "Linters":
       - "All supported linters": "supported-linters.md"
       - "Languages linters":
-          - "All language linters": "./supported-linters#languages"
+          - "All language linters": "./supported-linters/#languages"
           # language-start
           - "BASH":
               - "All BASH linters": "descriptors/bash.md"
@@ -76,6 +79,7 @@ nav:
           - "GO":
               - "All GO linters": "descriptors/go.md"
               - "golangci-lint": "descriptors/go_golangci_lint.md"
+              - "revive": "descriptors/go_revive.md"
           - "GROOVY":
               - "All GROOVY linters": "descriptors/groovy.md"
               - "npm-groovy-lint": "descriptors/groovy_npm_groovy_lint.md"
@@ -128,13 +132,19 @@ nav:
               - "clippy": "descriptors/rust_clippy.md"
           - "SALESFORCE":
               - "All SALESFORCE linters": "descriptors/salesforce.md"
-              - "sfdx-scanner": "descriptors/salesforce_sfdx_scanner.md"
+              - "sfdx-scanner-apex": "descriptors/salesforce_sfdx_scanner_apex.md"
+              - "sfdx-scanner-aura": "descriptors/salesforce_sfdx_scanner_aura.md"
+              - "sfdx-scanner-lwc": "descriptors/salesforce_sfdx_scanner_lwc.md"
           - "SCALA":
               - "All SCALA linters": "descriptors/scala.md"
               - "scalafix": "descriptors/scala_scalafix.md"
           - "SQL":
               - "All SQL linters": "descriptors/sql.md"
               - "sql-lint": "descriptors/sql_sql_lint.md"
+              - "sqlfluff": "descriptors/sql_sqlfluff.md"
+          - "SWIFT":
+              - "All SWIFT linters": "descriptors/swift.md"
+              - "swiftlint": "descriptors/swift_swiftlint.md"
           - "TSX":
               - "All TSX linters": "descriptors/tsx.md"
               - "eslint": "descriptors/tsx_eslint.md"
@@ -148,7 +158,7 @@ nav:
               - "dotnet-format": "descriptors/vbdotnet_dotnet_format.md"
 # language-end
       - "Formats linters":
-          - "All formats linters": "./supported-linters#formats"
+          - "All formats linters": "./supported-linters/#formats"
           # format-start
           - "CSS":
               - "All CSS linters": "descriptors/css.md"
@@ -168,6 +178,7 @@ nav:
               - "jsonlint": "descriptors/json_jsonlint.md"
               - "eslint-plugin-jsonc": "descriptors/json_eslint_plugin_jsonc.md"
               - "v8r": "descriptors/json_v8r.md"
+              - "prettier": "descriptors/json_prettier.md"
           - "LATEX":
               - "All LATEX linters": "descriptors/latex.md"
               - "chktex": "descriptors/latex_chktex.md"
@@ -190,11 +201,12 @@ nav:
               - "xmllint": "descriptors/xml_xmllint.md"
           - "YAML":
               - "All YAML linters": "descriptors/yaml.md"
+              - "prettier": "descriptors/yaml_prettier.md"
               - "yamllint": "descriptors/yaml_yamllint.md"
               - "v8r": "descriptors/yaml_v8r.md"
 # format-end
       - "Tooling Formats linters":
-          - "All tooling formats linters": "./supported-linters#tooling-formats"
+          - "All tooling formats linters": "./supported-linters/#tooling-formats"
           # tooling_format-start
           - "ANSIBLE":
               - "All ANSIBLE linters": "descriptors/ansible.md"
@@ -236,9 +248,10 @@ nav:
               - "tflint": "descriptors/terraform_tflint.md"
               - "terrascan": "descriptors/terraform_terrascan.md"
               - "terragrunt": "descriptors/terraform_terragrunt.md"
+              - "terraform-fmt": "descriptors/terraform_terraform_fmt.md"
 # tooling_format-end
       - "Other checks":
-          - "All other linters": "./supported-linters#other"
+          - "All other linters": "./supported-linters/#other"
           # other-start
           - "COPYPASTE":
               - "All COPYPASTE linters": "descriptors/copypaste.md"
@@ -263,7 +276,7 @@ nav:
       - "Console": "reporters/ConsoleReporter.md"
   - "Flavors":
       - "All flavors": "flavors.md"
-# flavors-start
+      # flavors-start
       - "ci_light": "flavors/ci_light.md"
       - "dart": "flavors/dart.md"
       - "documentation": "flavors/documentation.md"
@@ -277,6 +290,7 @@ nav:
       - "rust": "flavors/rust.md"
       - "salesforce": "flavors/salesforce.md"
       - "scala": "flavors/scala.md"
+      - "swift": "flavors/swift.md"
       - "terraform": "flavors/terraform.md"
 # flavors-end
   - "Run locally": "mega-linter-runner.md"
@@ -286,6 +300,8 @@ nav:
   - "Plugins": "plugins.md"
   - "Special thanks": "special-thanks.md"
   - "Mega-Linter vs Super-Linter": "mega-linter-vs-super-linter.md"
-  - "Contribute": "how-to-contribute.md"
+  - "Contribute":
+    - "How-to Contribute": "how-to-contribute.md"
+    - "Contributing Guide": "contributing.md"
   - "License": "license.md"
   - "Changelog": "CHANGELOG.md"

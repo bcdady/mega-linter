@@ -9,7 +9,7 @@
 
 ## pylint documentation
 
-- Version in Mega-Linter: **2.6.0**
+- Version in Mega-Linter: **2.8.2**
 - Visit [Official Web Site](https://www.pylint.org){target=_blank}
 - See [How to configure pylint rules](https://github.com/PyCQA/pylint/blob/master/pylintrc){target=_blank}
   - If custom `.python-lint` config file is not found, [.python-lint](https://github.com/nvuillam/mega-linter/tree/master/TEMPLATES/.python-lint){target=_blank} will be used
@@ -23,16 +23,17 @@
 - Enable pylint by adding `PYTHON_PYLINT` in [ENABLE_LINTERS variable](https://nvuillam.github.io/mega-linter/configuration/#activation-and-deactivation)
 - Disable pylint by adding `PYTHON_PYLINT` in [DISABLE_LINTERS variable](https://nvuillam.github.io/mega-linter/configuration/#activation-and-deactivation)
 
-| Variable                           | Description                                                                                                                                                                                  | Default value                                    |
-|------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| PYTHON_PYLINT_ARGUMENTS            | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
-| PYTHON_PYLINT_FILTER_REGEX_INCLUDE | Custom regex including filter<br/>Ex: `(src|lib)`                                                                                                                                            | Include every file                               |
-| PYTHON_PYLINT_FILTER_REGEX_EXCLUDE | Custom regex excluding filter<br/>Ex: `(test|examples)`                                                                                                                                      | Exclude no file                                  |
-| PYTHON_PYLINT_FILE_EXTENSIONS      | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".py"]`                                        |
-| PYTHON_PYLINT_FILE_NAMES_REGEX     | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
-| PYTHON_PYLINT_CONFIG_FILE          | pylint configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                            | `.python-lint`                                   |
-| PYTHON_PYLINT_RULES_PATH           | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
-| PYTHON_PYLINT_DISABLE_ERRORS       | Run linter but consider errors as warnings                                                                                                                                                   | `false`                                          |
+| Variable                                  | Description                                                                                                                                                                                  | Default value                                    |
+|-------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| PYTHON_PYLINT_ARGUMENTS                   | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
+| PYTHON_PYLINT_FILTER_REGEX_INCLUDE        | Custom regex including filter<br/>Ex: `(src\|lib)`                                                                                                                                           | Include every file                               |
+| PYTHON_PYLINT_FILTER_REGEX_EXCLUDE        | Custom regex excluding filter<br/>Ex: `(test\|examples)`                                                                                                                                     | Exclude no file                                  |
+| PYTHON_PYLINT_FILE_EXTENSIONS             | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".py"]`                                        |
+| PYTHON_PYLINT_FILE_NAMES_REGEX            | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
+| PYTHON_PYLINT_CONFIG_FILE                 | pylint configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                            | `.python-lint`                                   |
+| PYTHON_PYLINT_RULES_PATH                  | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
+| PYTHON_PYLINT_DISABLE_ERRORS              | Run linter but consider errors as warnings                                                                                                                                                   | `false`                                          |
+| PYTHON_PYLINT_DISABLE_ERRORS_IF_LESS_THAN | Maximum number of errors allowed                                                                                                                                                             | `0`                                              |
 
 ## IDE Integration
 
@@ -52,8 +53,8 @@ This linter is available in the following flavours
 
 | <!-- -->                                                                                                                                                  | Flavor                                                           | Description                         | Embedded linters | Info                                                                                                                                                                                 |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|-------------------------------------|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor          | 80               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter)               |
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/icons/python.ico" alt="" height="32px" class="megalinter-icon"></a>              | [python](https://nvuillam.github.io/mega-linter/flavors/python/) | Optimized for PYTHON based projects | 42               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter-python/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter-python) |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor          | 88               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter)               |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/icons/python.ico" alt="" height="32px" class="megalinter-icon"></a>              | [python](https://nvuillam.github.io/mega-linter/flavors/python/) | Optimized for PYTHON based projects | 45               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter-python/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter-python) |
 
 ## Behind the scenes
 
@@ -96,12 +97,12 @@ Options:
     -v, --verbose       In verbose mode, extra non-checker-related info will
                         be displayed.
     --ignore=<file>[,<file>...]
-                        Add files or directories to the blacklist. They should
-                        be base names, not paths. [current: CVS]
+                        Files or directories to be skipped. They should be
+                        base names, not paths. [current: CVS]
     --ignore-patterns=<pattern>[,<pattern>...]
-                        Add files or directories matching the regex patterns
-                        to the blacklist. The regex matches against base
-                        names, not paths. [current: none]
+                        Files or directories matching the regex patterns are
+                        skipped. The regex matches against base names, not
+                        paths. [current: none]
     --persistent=<y_or_n>
                         Pickle collected data for later comparisons. [current:
                         yes]
@@ -121,11 +122,18 @@ Options:
                         inferring a single object. This can help the
                         performance when dealing with large functions or
                         complex, nested conditions.  [current: 100]
-    --extension-pkg-whitelist=<pkg[,pkg]>
+    --extension-pkg-allow-list=<pkg[,pkg]>
                         A comma-separated list of package or module names from
                         where C extensions may be loaded. Extensions are
                         loading into the active Python interpreter and may run
                         arbitrary code. [current: none]
+    --extension-pkg-whitelist=<pkg[,pkg]>
+                        A comma-separated list of package or module names from
+                        where C extensions may be loaded. Extensions are
+                        loading into the active Python interpreter and may run
+                        arbitrary code. (This is an alternative name to
+                        extension-pkg-allow-list for backward compatibility.)
+                        [current: none]
     --suggestion-mode=<yn>
                         When enabled, pylint would attempt to guess common
                         misconfiguration and emit user-friendly hints instead
@@ -138,6 +146,7 @@ Options:
 
   Commands:
     --rcfile=<file>     Specify a configuration file to load.
+    --output=<file>     Specify an output file.
     --help-msg=<msg-id>
                         Display a help message for the given message id and
                         exit. The value may be a comma separated list of

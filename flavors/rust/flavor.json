@@ -23,6 +23,7 @@
         "JSON_JSONLINT",
         "JSON_ESLINT_PLUGIN_JSONC",
         "JSON_V8R",
+        "JSON_PRETTIER",
         "KOTLIN_KTLINT",
         "KUBERNETES_KUBEVAL",
         "MARKDOWN_MARKDOWNLINT",
@@ -37,8 +38,10 @@
         "SPELL_MISSPELL",
         "SPELL_CSPELL",
         "SQL_SQL_LINT",
+        "SQL_SQLFLUFF",
         "TEKTON_TEKTON_LINT",
         "XML_XMLLINT",
+        "YAML_PRETTIER",
         "YAML_YAMLLINT",
         "YAML_V8R"
     ]

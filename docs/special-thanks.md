@@ -18,6 +18,9 @@
 - [awesome-linters](https://github.com/caramelomartins/awesome-linters#language-agnostic)
 - [schemastore.org](https://www.schemastore.org/json/)
 
+### Articles
+- [Linting a Jekyll blog with Mega-Linter](https://www.ayyjohn.com/posts/linting-a-jekyll-blog-with-mega-linter), by [Alec Johnson](https://www.linkedin.com/in/ayyjohn/)
+
 ### Linters
 
 <!-- referring-linters-start -->
@@ -34,6 +37,7 @@
 - [rst-lint](https://github.com/twolfson/restructuredtext-lint/wiki/Integration-in-other-tools#integration-in-other-tools)
 - [rubocop](https://docs.rubocop.org/rubocop/integration_with_other_tools.html#mega-linter-integration)
 - [scalafix](https://scalacenter.github.io/scalafix/docs/users/installation.html#plugins-for-other-build-tools)
+- [stylelint](https://stylelint.io/user-guide/integrations/other#analysis-platform-engines)
 <!-- referring-linters-end -->
 
 ## Open-source teams

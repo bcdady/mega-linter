@@ -7,23 +7,63 @@ We're thrilled that you'd like to contribute to this project. Your help is essen
 
 [Pull Requests][pulls] are used for adding new playbooks, roles, and documents to the repository, or editing the existing ones.
 
+### Pre-requisites
+
+- You need [**Python 3**](https://www.python.org/downloads/) and [**Node.js** (14+)](https://nodejs.org/en/download/) to be installed on your computer.
+
+- Run the following commands at the root of the repository to install required dev dependencies
+```shell
+python3 -m venv venv
+. venv/bin/activate
+echo "venv/" >> .git/info/exclude
+python3 -m pip install -U pip
+python3 -m pip install -r requirements.dev.txt
+```
+
+_If it does not work, just run the following script_
+
+```shell
+pip install -r requirements.dev.txt
+pip install mkdocs-material
+npm install markdown-table-formatter -g
+```
+
+Second level dev dependencies are installed by running `./build.sh` which is also a test if the installation worked
+```shell
+./build.sh
+2021-03-30 19:40:03,790 [INFO] Validating ansible.megalinter-descriptor.yml
+2021-03-30 19:40:03,879 [INFO] Validating arm.megalinter-descriptor.yml
+...
+Formatting markdown tables...
+Need to install the following packages:
+  markdown-table-formatter
+Ok to proceed? (y)
+...
+INFO    -  Documentation built in 9.76 seconds
+(done.)
+```
+
+_(if you have a permission denied issue on Windows, please check [this solution](https://stackoverflow.com/a/57168165/7113625))_
+
 ### With write access
 
 1. Clone the repository (only if you have write access)
 2. Create a new branch: `git checkout -b my-branch-name`
 3. Make your change
-4. Run `bash build.sh` to regenerate dockerfile and documentation from updated sources
-5. Push and [submit a pull request][pr]
-6. Pat yourself on the back and wait for your pull request to be reviewed and merged.
+4. Update **CHANGELOG.md** (the root one, not the one in /docs)
+5. Run `bash build.sh` to regenerate dockerfile and documentation from updated sources
+6. Push and [submit a pull request][pr]
+7. Pat yourself on the back and wait for your pull request to be reviewed and merged.
 
 ### Without write access
 
 1. [Fork][fork] and clone the repository
 2. Create a new branch: `git checkout -b my-branch-name`
 3. Make your change
-4. Run `bash build.sh` to regenerate dockerfile and documentation from updated sources
-5. Push to your fork and [submit a pull request][pr]
-6. Pat your self on the back and wait for your pull request to be reviewed and merged.
+4. Update **CHANGELOG.md** (the root one, not the one in /docs)
+5. Run `bash build.sh` to regenerate dockerfile and documentation from updated sources
+6. Push to your fork and [submit a pull request][pr]
+7. Pat your self on the back and wait for your pull request to be reviewed and merged.
 
 Here are a few things you can do that will increase the likelihood of your pull request being accepted:
 
@@ -42,11 +82,23 @@ Each linter must:
 - Be defined in a descriptor file. Few properties are required ([see json schema documentation](https://nvuillam.github.io/mega-linter/json-schemas/descriptor.html)), but please think to input doc URLs and `ide` section for documentation
 - Have two test files in `.automation/test`: one for success and one for failure
 
+Then run `bash build.py` and it will generate all the rest !
+
+- Documentation (markdown)
+- Dockerfile (main and flavors)
+- Test classes
+- Configuration JSON schema
+- Online documentation menus
+
+![Screenshot](https://github.com/nvuillam/mega-linter/blob/master/docs/assets/images/ContributingAddLinter_1.jpg?raw=true>)
+
+
 ### CI/CT/CD
 
 The **Mega-Linter** has _CI/CT/CD_ configured utilizing **GitHub** Actions.
 
 - When a branch is created and code is pushed, a **GitHub** Action is triggered for building the new **Docker** container with the new codebase
+  - To test your updates during your development, you may have to create a draft Pull Request to trigger CI on the main repo
   - During development, if all you updated is python code, you can write `quick build` in the commit message body to benefit from a quicker build (about 15 minutes): only python files are copied over nvuillam/mega-linter:test-YOURUSERNAME-YOURBRANCH or nvuillam/mega-linter:latest if a previous full run has not been performed yet
   - You can [filter the performed tests](https://docs.pytest.org/en/stable/usage.html#specifying-tests-selecting-tests) by writing `TEST_KEYWORDS=my keywords` in the commit message body. Example: `TEST_KEYWORDS=kubernetes_kubeval_test`
   - The last commit before the validation of a Pull Request must be a full build with all tests (about 45 minutes)

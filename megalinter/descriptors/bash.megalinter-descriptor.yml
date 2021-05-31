@@ -15,6 +15,7 @@ linters:
     linter_url: https://tiswww.case.edu/php/chet/bash/bashtop.html
     linter_megalinter_ref_url: never
     name: BASH_EXEC
+    cli_executable_help: bash
     cli_executable_version: bash
     cli_help_arg_name: "--help"
     examples:
@@ -34,7 +35,7 @@ linters:
     linter_url: https://github.com/koalaman/shellcheck
     linter_rules_url: https://github.com/koalaman/shellcheck#gallery-of-bad-code
     linter_rules_inline_disable_url: https://github.com/koalaman/shellcheck/wiki/Ignore
-    linter_megalinter_ref_url: https://github.com/koalaman/shellcheck/pull/2076
+    linter_megalinter_ref_url: never
     cli_lint_extra_args:
       - "--color=auto"
       - "--external-sources"
@@ -80,7 +81,7 @@ linters:
     cli_lint_fix_arg_name: "-w"
     cli_lint_fix_remove_args:
       - "-d"
-    help_command_return_code: 2
+    help_command_return_code: 0
     test_folder: shell_shfmt
     examples:
       - "shfmt -d myfile.sh"

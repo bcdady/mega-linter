@@ -45,6 +45,7 @@ class Linter:
         )
         # If you have several linters for the same language,override with a different name.Ex: JAVASCRIPT_ES
         self.name = None
+        self.disabled = False
         self.is_formatter = False
         self.linter_name = "Field 'linter_name' must be overridden at custom linter class level"  # Ex: eslint
         # ex: https://eslint.org/
@@ -68,6 +69,9 @@ class Linter:
         self.lint_all_other_linters_files = False
 
         self.cli_lint_mode = "file"
+        self.cli_docker_image = None
+        self.cli_docker_image_version = "latest"
+        self.cli_docker_args = []
         self.cli_executable = None
         self.cli_executable_fix = None
         self.cli_executable_version = None
@@ -121,7 +125,13 @@ class Linter:
             }
 
         self.is_active = params["default_linter_activation"]
-        self.disable_errors = True if self.is_formatter is True else False
+        self.disable_errors_if_less_than = None
+        self.disable_errors = (
+            True
+            if self.is_formatter is True
+            and not config.get("FORMATTERS_DISABLE_ERRORS", "true") == "false"
+            else False
+        )
         if self.name is None:
             self.name = (
                 self.descriptor_id + "_" + self.linter_name.upper().replace("-", "_")
@@ -133,7 +143,7 @@ class Linter:
         if self.cli_executable_version is None:
             self.cli_executable_version = self.cli_executable
         if self.cli_executable_help is None:
-            self.cli_executable_help = self.cli_executable_version
+            self.cli_executable_help = self.cli_executable
         if self.test_folder is None:
             self.test_folder = self.descriptor_id.lower()
 
@@ -226,7 +236,12 @@ class Linter:
             if len(self.active_only_if_file_found) > 0:
                 is_found = False
                 for file_to_check in self.active_only_if_file_found:
-                    if os.path.isfile(f"{self.workspace}/{file_to_check}"):
+                    if os.path.isfile(f"{self.workspace}{os.path.sep}{file_to_check}"):
+                        is_found = True
+                        break
+                    if os.path.isfile(
+                        f"{self.workspace}{os.path.sep}{self.linter_rules_path}{os.path.sep}{file_to_check}"
+                    ):
                         is_found = True
                         break
                 if is_found is False:
@@ -250,7 +265,7 @@ class Linter:
             self.number_fixed = 0
             self.files_lint_results = []
             self.start_perf = None
-            self.elapsed_time_s = None
+            self.elapsed_time_s = 0
             self.remote_config_file_to_delete = None
 
     # Enable or disable linter
@@ -306,19 +321,18 @@ class Linter:
             self.config_file_name = config.get(self.name + "_FILE_NAME")
         elif config.exists(self.descriptor_id + "_FILE_NAME"):
             self.config_file_name = config.get(self.descriptor_id + "_FILE_NAME")
-
         # Linter rules path: try first NAME + _RULE_PATH, then LANGUAGE + _RULE_PATH
         if config.exists(self.name + "_RULES_PATH"):
             self.linter_rules_path = config.get(self.name + "_RULES_PATH")
         elif config.exists(self.descriptor_id + "_RULES_PATH"):
             self.linter_rules_path = config.get(self.descriptor_id + "_RULES_PATH")
-
         # Linter config file:
         # 0: LINTER_DEFAULT set in user config: let the linter find it, do not reference it in cli arguments
         # 1: http rules path: fetch remove file and copy it locally (then delete it after linting)
         # 2: repo + config_file_name
         # 3: linter_rules_path + config_file_name
-        # 4: mega-linter default rules path + config_file_name
+        # 4: workspace root + linter_rules_path + config_file_name
+        # 5: mega-linter default rules path + config_file_name
         if (
             self.config_file_name is not None
             and self.config_file_name != "LINTER_DEFAULT"
@@ -357,6 +371,21 @@ class Linter:
                 self.config_file = (
                     self.linter_rules_path + os.path.sep + self.config_file_name
                 )
+            # in workspace root
+            elif os.path.isfile(
+                self.workspace
+                + os.path.sep
+                + self.linter_rules_path
+                + os.path.sep
+                + self.config_file_name
+            ):
+                self.config_file = (
+                    self.workspace
+                    + os.path.sep
+                    + self.linter_rules_path
+                    + os.path.sep
+                    + self.config_file_name
+                )
             # in user repo directory provided in <Linter>RULES_PATH or LINTER_RULES_PATH
             elif os.path.isfile(
                 self.default_rules_location + os.path.sep + self.config_file_name
@@ -369,7 +398,6 @@ class Linter:
                 self.config_file_label = self.config_file.replace(
                     "/tmp/lint", ""
                 ).replace("/action/lib/.automation/", "")
-
         # Include regex :try first NAME + _FILTER_REGEX_INCLUDE, then LANGUAGE + _FILTER_REGEX_INCLUDE
         if config.exists(self.name + "_FILTER_REGEX_INCLUDE"):
             self.filter_regex_include = config.get(self.name + "_FILTER_REGEX_INCLUDE")
@@ -377,23 +405,36 @@ class Linter:
             self.filter_regex_include = config.get(
                 self.descriptor_id + "_FILTER_REGEX_INCLUDE"
             )
-
         # User arguments from config
         if config.get(self.name + "_ARGUMENTS", "") != "":
             self.cli_lint_user_args = config.get_list_args(self.name + "_ARGUMENTS")
 
         # Disable errors for this linter NAME + _DISABLE_ERRORS, then LANGUAGE + _DISABLE_ERRORS
-        if config.get(self.name + "_DISABLE_ERRORS", "false") == "true":
+        if config.get(self.name + "_DISABLE_ERRORS_IF_LESS_THAN"):
+            self.disable_errors_if_less_than = int(
+                config.get(self.name + "_DISABLE_ERRORS_IF_LESS_THAN")
+            )
+        if self.disable_errors_if_less_than is not None:
+            self.disable_errors = False
+        elif config.get(self.name + "_DISABLE_ERRORS", "") == "false":
+            self.disable_errors = False
+        elif config.get(self.name + "_DISABLE_ERRORS", "") == "true":
             self.disable_errors = True
-        elif config.get(self.descriptor_id + "_DISABLE_ERRORS", "false") == "true":
+        elif config.get(self.descriptor_id + "_DISABLE_ERRORS", "") == "false":
+            self.disable_errors = False
+        elif config.get(self.descriptor_id + "_DISABLE_ERRORS", "") == "true":
             self.disable_errors = True
-
         # Exclude regex: try first NAME + _FILTER_REGEX_EXCLUDE, then LANGUAGE + _FILTER_REGEX_EXCLUDE
         if config.exists(self.name + "_FILTER_REGEX_EXCLUDE"):
             self.filter_regex_exclude = config.get(self.name + "_FILTER_REGEX_EXCLUDE")
         elif config.exists(self.descriptor_id + "_FILTER_REGEX_EXCLUDE"):
             self.filter_regex_exclude = config.get(
                 self.descriptor_id + "_FILTER_REGEX_EXCLUDE"
+            )
+        # Override default docker image version
+        if config.exists(self.name + "_DOCKER_IMAGE_VERSION"):
+            self.cli_docker_image_version = config.get(
+                self.name + "_DOCKER_IMAGE_VERSION"
             )
 
     # Processes the linter
@@ -437,8 +478,15 @@ class Linter:
             if self.cli_lint_mode == "list_of_files":
                 self.update_files_lint_results(self.files, None, None, None, None)
         # Set return code to 0 if failures in this linter must not make the Mega-Linter run fail
-        if self.return_code != 0 and self.disable_errors is True:
-            self.return_code = 0
+        if self.return_code != 0:
+            # Disable errors: no failure, just warning
+            if self.disable_errors is True:
+                self.return_code = 0
+            elif (
+                self.disable_errors_if_less_than is not None
+                and self.total_number_errors < self.disable_errors_if_less_than
+            ):
+                self.return_code = 0
         # Delete locally copied remote config file if necessary
         if self.remote_config_file_to_delete is not None:
             os.remove(self.remote_config_file_to_delete)
@@ -520,9 +568,11 @@ class Linter:
     def process_linter(self, file=None):
         # Build command using method locally defined on Linter class
         command = self.build_lint_command(file)
-        logging.debug("Linter command: " + str(command))
+        logging.debug(f"[{self.linter_name}] command: {str(command)}")
         return_code, return_output = self.execute_lint_command(command)
-        logging.debug("Linter result: " + str(return_code) + " " + return_output)
+        logging.debug(
+            f"[{self.linter_name}] result: {str(return_code)} {return_output}"
+        )
         return return_code, return_output
 
     # Execute a linting command . Can be overridden for special cases, like use of PowerShell script
@@ -533,6 +583,9 @@ class Linter:
             if self.cli_lint_mode in ["file", "list_of_files"]
             else self.workspace
         )
+        cwd = os.path.abspath(cwd)
+        logging.debug(f"[{self.linter_name}] CWD: {cwd}")
+        subprocess_env = {**os.environ, "FORCE_COLOR": "0"}
         if type(command) == str:
             # Call linter with a sub-process
             process = subprocess.run(
@@ -540,7 +593,8 @@ class Linter:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 shell=True,
-                cwd=os.path.realpath(cwd),
+                cwd=cwd,
+                env=subprocess_env,
                 executable=shutil.which("bash")
                 if sys.platform == "win32"
                 else "/bin/bash",
@@ -561,7 +615,8 @@ class Linter:
                 command,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                cwd=os.path.realpath(cwd),
+                env=subprocess_env,
+                cwd=cwd,
             )
         return_code = process.returncode
         return_stdout = utils.decode_utf8(process.stdout)
@@ -661,6 +716,31 @@ class Linter:
             reg = re.compile(reg)
         return reg
 
+    def manage_docker_command(self, command):
+        if self.cli_docker_image is None:
+            return command
+        docker_command = ["docker", "run"]
+        if hasattr(self, "workspace"):
+            volume_root = config.get("MEGALINTER_VOLUME_ROOT", "")
+            if volume_root != "":
+                workspace_value = (
+                    volume_root + "/" + self.workspace.replace("/tmp/lint", "")
+                )
+            else:
+                workspace_value = self.workspace
+        else:
+            workspace_value = "/tmp/lint"
+        docker_command += map(
+            lambda arg, w=workspace_value: arg.replace("{{WORKSPACE}}", w),
+            self.cli_docker_args,
+        )
+        docker_command += [f"{self.cli_docker_image}:{self.cli_docker_image_version}"]
+        if type(command) == str:
+            command = " ".join(docker_command) + " " + command
+        else:
+            command = docker_command + command  # ["ls", "-A", "/tmp/lint"]
+        return command
+
     ########################################
     # Methods that can be overridden below #
     ########################################
@@ -685,26 +765,32 @@ class Linter:
         cmd += self.cli_lint_user_args
         # Add config arguments if defined (except for case when no_config_if_fix is True)
         if self.config_file is not None:
+            final_config_file = self.config_file
+            if self.cli_docker_image is not None:
+                final_config_file = final_config_file.replace(
+                    self.workspace, "/tmp/lint"
+                )
             if self.cli_config_arg_name.endswith("="):
-                cmd += [self.cli_config_arg_name + self.config_file]
+                cmd += [self.cli_config_arg_name + final_config_file]
             elif self.cli_config_arg_name != "":
-                cmd += [self.cli_config_arg_name, self.config_file]
+                cmd += [self.cli_config_arg_name, final_config_file]
             cmd += self.cli_config_extra_args
         # Add other lint cli arguments after other arguments if defined
         cmd += self.cli_lint_extra_args_after
         # Some linters/formatters update files by default.
         # To avoid that, declare -megalinter-fix-flag as cli_lint_fix_arg_name
-        if self.try_fix is True and "--megalinter-fix-flag" in cmd:
+        if self.try_fix is True:
             for arg in self.cli_lint_fix_remove_args:
                 cmd.remove(arg)
-            cmd.remove("--megalinter-fix-flag")
+            if "--megalinter-fix-flag" in cmd:
+                cmd.remove("--megalinter-fix-flag")
         # Append file in command arguments
         if file is not None:
             cmd += [file]
         # If mode is "list of files", append all files as cli arguments
         elif self.cli_lint_mode == "list_of_files":
             cmd += self.files
-        return cmd
+        return self.manage_docker_command(cmd)
 
     # Find number of errors in linter stdout log
     def get_total_number_errors(self, stdout):
@@ -739,7 +825,7 @@ class Linter:
             )
         if self.status == "success":
             return 0
-        if self.status == "error":
+        elif self.status == "error":
             return 1
 
     # Build the CLI command to get linter version (can be overridden if --version is not the way to get the version)
@@ -748,14 +834,14 @@ class Linter:
         cmd += self.cli_version_extra_args
         if self.cli_version_arg_name != "":
             cmd += [self.cli_version_arg_name]
-        return cmd
+        return self.manage_docker_command(cmd)
 
     # Build the CLI command to get linter version (can be overridden if --version is not the way to get the version)
     def build_help_command(self):
         cmd = [self.cli_executable_help]
         cmd += self.cli_help_extra_args
         cmd += [self.cli_help_arg_name]
-        return cmd
+        return self.manage_docker_command(cmd)
 
     # Provide additional details in text reporter logs
     # noinspection PyMethodMayBeStatic

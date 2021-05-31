@@ -9,7 +9,7 @@
 
 ## clj-kondo documentation
 
-- Version in Mega-Linter: **2020.09.09**
+- Version in Mega-Linter: **2021.04.23**
 - Visit [Official Web Site](https://github.com/borkdude/clj-kondo#readme){target=_blank}
 - See [How to configure clj-kondo rules](https://github.com/borkdude/clj-kondo/blob/master/doc/config.md#configuration){target=_blank}
   - If custom `.clj-kondo/config.edn` config file is not found, [.clj-kondo/config.edn](https://github.com/nvuillam/mega-linter/tree/master/TEMPLATES/.clj-kondo/config.edn){target=_blank} will be used
@@ -22,16 +22,17 @@
 - Enable clj-kondo by adding `CLOJURE_CLJ_KONDO` in [ENABLE_LINTERS variable](https://nvuillam.github.io/mega-linter/configuration/#activation-and-deactivation)
 - Disable clj-kondo by adding `CLOJURE_CLJ_KONDO` in [DISABLE_LINTERS variable](https://nvuillam.github.io/mega-linter/configuration/#activation-and-deactivation)
 
-| Variable                               | Description                                                                                                                                                                                  | Default value                                    |
-|----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| CLOJURE_CLJ_KONDO_ARGUMENTS            | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
-| CLOJURE_CLJ_KONDO_FILTER_REGEX_INCLUDE | Custom regex including filter<br/>Ex: `(src|lib)`                                                                                                                                            | Include every file                               |
-| CLOJURE_CLJ_KONDO_FILTER_REGEX_EXCLUDE | Custom regex excluding filter<br/>Ex: `(test|examples)`                                                                                                                                      | Exclude no file                                  |
-| CLOJURE_CLJ_KONDO_FILE_EXTENSIONS      | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".clj", ".cljs", ".cljc", ".edn"]`             |
-| CLOJURE_CLJ_KONDO_FILE_NAMES_REGEX     | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
-| CLOJURE_CLJ_KONDO_CONFIG_FILE          | clj-kondo configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                         | `.clj-kondo/config.edn`                          |
-| CLOJURE_CLJ_KONDO_RULES_PATH           | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
-| CLOJURE_CLJ_KONDO_DISABLE_ERRORS       | Run linter but consider errors as warnings                                                                                                                                                   | `false`                                          |
+| Variable                                      | Description                                                                                                                                                                                  | Default value                                    |
+|-----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| CLOJURE_CLJ_KONDO_ARGUMENTS                   | User custom arguments to add in linter CLI call<br/>Ex: `-s --foo "bar"`                                                                                                                     |                                                  |
+| CLOJURE_CLJ_KONDO_FILTER_REGEX_INCLUDE        | Custom regex including filter<br/>Ex: `(src\|lib)`                                                                                                                                           | Include every file                               |
+| CLOJURE_CLJ_KONDO_FILTER_REGEX_EXCLUDE        | Custom regex excluding filter<br/>Ex: `(test\|examples)`                                                                                                                                     | Exclude no file                                  |
+| CLOJURE_CLJ_KONDO_FILE_EXTENSIONS             | Allowed file extensions. `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>Ex: `[".py", ""]`                                                      | `[".clj", ".cljs", ".cljc", ".edn"]`             |
+| CLOJURE_CLJ_KONDO_FILE_NAMES_REGEX            | File name regex filters. Regular expression list for filtering files by their base names using regex full match. Empty list includes all files<br/>Ex: `["Dockerfile(-.+)?", "Jenkinsfile"]` | Include every file                               |
+| CLOJURE_CLJ_KONDO_CONFIG_FILE                 | clj-kondo configuration file name</br>Use `LINTER_DEFAULT` to let the linter find it                                                                                                         | `.clj-kondo/config.edn`                          |
+| CLOJURE_CLJ_KONDO_RULES_PATH                  | Path where to find linter configuration file                                                                                                                                                 | Workspace folder, then Mega-Linter default rules |
+| CLOJURE_CLJ_KONDO_DISABLE_ERRORS              | Run linter but consider errors as warnings                                                                                                                                                   | `false`                                          |
+| CLOJURE_CLJ_KONDO_DISABLE_ERRORS_IF_LESS_THAN | Maximum number of errors allowed                                                                                                                                                             | `0`                                              |
 
 ## IDE Integration
 
@@ -50,7 +51,7 @@ This linter is available in the following flavours
 
 | <!-- -->                                                                                                                                                  | Flavor                                                           | Description                | Embedded linters | Info                                                                                                                                                                   |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|----------------------------|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor | 80               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter) |
+| <img src="https://github.com/nvuillam/mega-linter/raw/master/docs/assets/images/mega-linter-square.png" alt="" height="32px" class="megalinter-icon"></a> | [all](https://nvuillam.github.io/mega-linter/supported-linters/) | Default Mega-Linter Flavor | 88               | ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/nvuillam/mega-linter/v4) ![Docker Pulls](https://img.shields.io/docker/pulls/nvuillam/mega-linter) |
 
 ## Behind the scenes
 
@@ -75,7 +76,7 @@ clj-kondo --lint --config .clj-kondo/config.edn myfile.clj
 ### Help content
 
 ```shell
-clj-kondo v2020.09.09
+clj-kondo v2021.04.23
 
 
 Options:
@@ -87,6 +88,9 @@ Options:
   --lang <lang>: if lang cannot be derived from the file extension this option will be
     used. Supported values: clj, cljs, cljc.
 
+  --filename <file>: in case stdin is used for linting, use this to set the
+    reported filename.
+
   --cache-dir: when this option is provided, the cache will be resolved to this
     directory. If --cache is false, this option will be ignored.
 
@@ -95,14 +99,19 @@ Options:
   nearest `.clj-kondo` directory in the current and parent directories.
 
   --config <config>: config may be a file or an EDN expression. See
-    https://cljdoc.org/d/clj-kondo/clj-kondo/2020.09.09/doc/configuration
+    https://cljdoc.org/d/clj-kondo/clj-kondo/2021.04.23/doc/configuration
 
   --config-dir <config-dir>: use this config directory instead of auto-detected
     .clj-kondo dir.
 
-  --run-as-pod: run clj-kondo as a babashka pod
-
   --parallel: lint sources in parallel.
+
+  --dependencies: don't report any findings. Useful for populating cache while linting dependencies.
+
+  --copy-configs: copy configs from dependencies while linting.
+
+  --fail-level <level>: minimum severity for exit with error code.  Supported values:
+    warning, error.  The default level if unspecified is warning.
 
 ```
 
@@ -110,8 +119,8 @@ Options:
 
 - Dockerfile commands :
 ```dockerfile
-FROM borkdude/clj-kondo:2020.09.09 as clj-kondo
-COPY --from=clj-kondo /usr/local/bin/clj-kondo /usr/bin/
+FROM cljkondo/clj-kondo:2021.04.23-alpine as clj-kondo
+COPY --from=clj-kondo /bin/clj-kondo /usr/bin/
 ```
 
 

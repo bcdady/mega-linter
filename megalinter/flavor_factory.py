@@ -1,6 +1,9 @@
 import json
 import logging
 import os
+import sys
+
+from megalinter import config
 
 ALL_FLAVORS_CACHE = None
 
@@ -48,6 +51,7 @@ def list_megalinter_flavors():
         "rust": {"label": "Optimized for RUST based projects"},
         "salesforce": {"label": "Optimized for Salesforce based projects"},
         "scala": {"label": "Optimized for SCALA based projects"},
+        "swift": {"label": "Optimized for SWIFT based projects"},
         "terraform": {"label": "Optimized for TERRAFORM based projects"},
     }
     return flavors
@@ -83,6 +87,11 @@ def check_active_linters_match_flavor(active_linters):
             "located in your root directory\n"
             "- ignore this message by setting config variable FLAVOR_SUGGESTIONS to false"
         )
+        if config.get("FAIL_IF_MISSING_LINTER_IN_FLAVOR", "") == "true":
+            logging.error(
+                'Missing linter and FAIL_IF_MISSING_LINTER_IN_FLAVOR has been set to "true": Stop run'
+            )
+            sys.exit(84)
         return False
     return True
 
@@ -108,7 +117,10 @@ def get_megalinter_flavor_suggestions(active_linters):
             }
             matching_flavors += [matching_flavor]
     if len(matching_flavors) > 0:
+        # There are matching flavors
         return sorted(
             matching_flavors, key=lambda i: (i["linters_number"], i["flavor"])
         )
-    return None
+    # Propose user to request a new flavor for the list of linters
+    active_linter_names = map(lambda linter: linter.name, active_linters)
+    return ["new", active_linter_names]

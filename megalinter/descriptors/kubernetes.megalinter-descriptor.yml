@@ -8,9 +8,9 @@ file_extensions:
   - ".yaml"
   - ".json"
 file_contains_regex:
-  - 'apiVersion:'
+  - "apiVersion:"
   - 'kustomize\.config\.k8s\.io'
-  - 'tekton'
+  - "tekton"
 linters:
   # KUBEVAL
   - linter_name: kubeval
@@ -25,6 +25,6 @@ linters:
     install:
       dockerfile:
         - |
-          RUN wget https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz \
+          RUN wget -q https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz \
               && tar xf kubeval-linux-amd64.tar.gz \
               && cp kubeval /usr/local/bin

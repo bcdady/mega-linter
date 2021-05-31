@@ -15,13 +15,16 @@ from urllib import parse as parse_urllib
 import jsonschema
 import markdown
 import megalinter
+import requests
 import terminaltables
 import yaml
 from bs4 import BeautifulSoup
 from giturlparse import parse
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 from webpreview import web_preview
 
-USERNAME = "bcdady"
+USERNAME = "nvuillam"
 BRANCH = "main"
 IMAGE_REPO = USERNAME + "/mega-linter"
 URL_ROOT = "https://github.com/" + USERNAME + "/mega-linter/tree/" + BRANCH
@@ -75,6 +78,7 @@ def generate_all_flavors():
     for flavor, flavor_info in flavors.items():
         generate_flavor(flavor, flavor_info)
     update_mkdocs_and_workflow_yml_with_flavors()
+    update_docker_pulls_counter()
 
 
 # Automatically generate Dockerfile , action.yml and upgrade all_flavors.json
@@ -92,10 +96,13 @@ def generate_flavor(flavor, flavor_info):
                 flavor_descriptors += [descriptor["descriptor_id"]]
     # Get install instructions at linter level
     linters = megalinter.linter_factory.list_all_linters()
+    requires_docker = False
     for linter in linters:
         if match_flavor(vars(linter), flavor) is True:
             descriptor_and_linters += [vars(linter)]
             flavor_linters += [linter.name]
+            if linter.cli_docker_image is not None:
+                requires_docker = True
     # Initialize Dockerfile
     if flavor == "all":
         dockerfile = f"{REPO_HOME}/Dockerfile"
@@ -110,12 +117,14 @@ def generate_flavor(flavor, flavor_info):
         os.makedirs(os.path.dirname(flavor_file), exist_ok=True)
         with open(flavor_file, "w", encoding="utf-8") as outfile:
             json.dump(flavor_info, outfile, indent=4, sort_keys=True)
+            outfile.write("\n")
         # Write in global flavors files
         with open(GLOBAL_FLAVORS_FILE, "r", encoding="utf-8") as json_file:
             global_flavors = json.load(json_file)
             global_flavors[flavor] = flavor_info
         with open(GLOBAL_FLAVORS_FILE, "w", encoding="utf-8") as outfile:
             json.dump(global_flavors, outfile, indent=4, sort_keys=True)
+            outfile.write("\n")
         # Flavored dockerfile
         dockerfile = f"{FLAVORS_DIR}/{flavor}/Dockerfile"
         if not os.path.isdir(os.path.dirname(dockerfile)):
@@ -157,6 +166,12 @@ branding:
     npm_packages = []
     pip_packages = []
     gem_packages = []
+    # Manage docker
+    if requires_docker is True:
+        apk_packages += ["docker", "openrc"]
+        docker_other += [
+            "RUN rc-update add docker boot && rc-service docker start || true"
+        ]
     for item in descriptor_and_linters:
         if "install" not in item:
             item["install"] = {}
@@ -189,7 +204,10 @@ branding:
     replace_in_file(dockerfile, "#FROM__START", "#FROM__END", "\n".join(docker_from))
     replace_in_file(dockerfile, "#ARG__START", "#ARG__END", "\n".join(docker_arg))
     replace_in_file(
-        dockerfile, "#OTHER__START", "#OTHER__END", "\n".join(docker_other),
+        dockerfile,
+        "#OTHER__START",
+        "#OTHER__END",
+        "\n".join(docker_other),
     )
     # apk packages
     apk_install_command = ""
@@ -642,6 +660,14 @@ def process_type(linters_by_type, type1, type_label, linters_tables_md):
         linter_doc_md += [
             f"- Visit [Official Web Site]({doc_url(linter.linter_url)}){{target=_blank}}",
         ]
+        # Docker image doc
+        if linter.cli_docker_image is not None:
+            linter_doc_md += [
+                f"- Docker image: [{linter.cli_docker_image}:{linter.cli_docker_image_version}]"
+                f"(https://hub.docker.com/r/{linter.cli_docker_image})"
+                "{target=_blank}",
+                f"  - arguments: `{' '.join(linter.cli_docker_args)}`",
+            ]
         # Rules configuration URL
         if (
             hasattr(linter, "linter_rules_configuration_url")
@@ -679,10 +705,12 @@ def process_type(linters_by_type, type1, type_label, linters_tables_md):
         # Github repo svg preview
         repo = get_repo(linter)
         if repo is not None and repo.github is True:
+            # pylint: disable=no-member
             linter_doc_md += [
                 f"[![{repo.repo} - GitHub](https://gh-card.dev/repos/{repo.owner}/{repo.repo}.svg?fullname=)]"
                 f"(https://github.com/{repo.owner}/{repo.repo}){{target=_blank}}",
                 "",
+                # pylint: enable=no-member
             ]
         else:
             logging.warning(
@@ -718,13 +746,17 @@ def process_type(linters_by_type, type1, type_label, linters_tables_md):
                 linter_doc_md += [
                     f"| {variable['name']} | {variable['description']} | `{variable['default_value']}` |"
                 ]
+        if linter.cli_docker_image is not None:
+            linter_doc_md += [
+                f"| {linter.name}_DOCKER_IMAGE_VERSION | Docker image version | `{linter.cli_docker_image_version}` |"
+            ]
         linter_doc_md += [
             f"| {linter.name}_ARGUMENTS | User custom arguments to add in linter CLI call<br/>"
             f'Ex: `-s --foo "bar"` |  |',
             f"| {linter.name}_FILTER_REGEX_INCLUDE | Custom regex including filter<br/>"
-            f"Ex: `(src|lib)` | Include every file |",
+            f"Ex: `(src\\|lib)` | Include every file |",
             f"| {linter.name}_FILTER_REGEX_EXCLUDE | Custom regex excluding filter<br/>"
-            f"Ex: `(test|examples)` | Exclude no file |",
+            f"Ex: `(test\\|examples)` | Exclude no file |",
             f"| {linter.name}_FILE_EXTENSIONS | Allowed file extensions."
             f' `"*"` matches any extension, `""` matches empty extension. Empty list excludes all files<br/>'
             f"Ex: `[\".py\", \"\"]` | {dump_as_json(linter.file_extensions, 'Exclude every file')} |",
@@ -791,6 +823,15 @@ def process_type(linters_by_type, type1, type_label, linters_tables_md):
                         "title": f"{linter.name}: Linter does not make Mega-Linter fail even if errors are found",
                     },
                 ],
+                [
+                    f"{linter.name}_DISABLE_ERRORS_IF_LESS_THAN",
+                    {
+                        "$id": f"#/properties/{linter.name}_DISABLE_ERRORS_IF_LESS_THAN",
+                        "type": "number",
+                        "default": 0,
+                        "title": f"{linter.name}: Maximum number of errors allowed",
+                    },
+                ],
             ]
         )
 
@@ -828,8 +869,11 @@ def process_type(linters_by_type, type1, type_label, linters_tables_md):
         default_disable_errors = "true" if linter.is_formatter is True else "false"
         linter_doc_md += [
             f"| {linter.name}_DISABLE_ERRORS | Run linter but consider errors as warnings |"
-            f" `{default_disable_errors}` |"
+            f" `{default_disable_errors}` |",
+            f"| {linter.name}_DISABLE_ERRORS_IF_LESS_THAN | Maximum number of errors allowed |"
+            f" `0` |",
         ]
+
         if linter.files_sub_directory is not None:
             linter_doc_md += [
                 f"| {linter.descriptor_id}_DIRECTORY | Directory containing {linter.descriptor_id} files "
@@ -1021,7 +1065,11 @@ def build_flavors_md_table(filter_linter_name=None, replace_link=False):
     all_flavors = megalinter.flavor_factory.get_all_flavors()
     for flavor_id, flavor in all_flavors.items():
         icon_html = icon(
-            f"{DOCS_URL_RAW_ROOT}/assets/icons/{flavor_id}.ico", "", "", flavor_id, 32,
+            f"{DOCS_URL_RAW_ROOT}/assets/icons/{flavor_id}.ico",
+            "",
+            "",
+            flavor_id,
+            32,
         )
         linters_number = len(flavor["linters"])
         if (
@@ -1075,6 +1123,65 @@ def update_mkdocs_and_workflow_yml_with_flavors():
         "# flavors-start",
         "# flavors-end",
         "\n".join(gha_workflow_yml),
+    )
+
+
+def update_docker_pulls_counter():
+    logging.info("Fetching docker pull counters on flavors images")
+    total_count = 0
+    for flavor_id, _flavor_info in megalinter.flavor_factory.get_all_flavors().items():
+        if flavor_id == "all":
+            docker_image_url = (
+                "https://hub.docker.com/v2/repositories/nvuillam/mega-linter"
+            )
+        else:
+            docker_image_url = f"https://hub.docker.com/v2/repositories/nvuillam/mega-linter-{flavor_id}"
+        r = requests_retry_session().get(docker_image_url)
+        resp = r.json()
+        flavor_count = resp["pull_count"] or 0
+        logging.info(f"- docker pulls for {flavor_id}: {flavor_count}")
+        total_count = total_count + flavor_count
+    total_count_human = number_human_format(total_count)
+    logging.info(f"Total docker pulls: {total_count_human} ({total_count})")
+    replace_in_file(
+        f"{REPO_HOME}/README.md", "pulls-", "-blue", total_count_human, False
+    )
+    replace_in_file(
+        f"{REPO_HOME}/mega-linter-runner/README.md",
+        "pulls-",
+        "-blue",
+        total_count_human,
+        False,
+    )
+
+
+def requests_retry_session(
+    retries=3,
+    backoff_factor=0.5,
+    status_forcelist=(500, 502, 504),
+    session=None,
+):
+    session = session or requests.Session()
+    retry = Retry(
+        total=retries,
+        read=retries,
+        connect=retries,
+        backoff_factor=backoff_factor,
+        status_forcelist=status_forcelist,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+    return session
+
+
+def number_human_format(num, round_to=1):
+    magnitude = 0
+    while abs(num) >= 1000:
+        magnitude += 1
+        num = round(num / 1000.0, round_to)
+    return "{:.{}f}{}".format(
+        round(num, round_to), round_to, ["", "k", "M", "G", "T", "P"][magnitude]
     )
 
 
@@ -1249,12 +1356,15 @@ def md_package_list(package_list, indent, start_url):
     return res
 
 
-def replace_in_file(file_path, start, end, content):
+def replace_in_file(file_path, start, end, content, add_new_line=True):
     # Read in the file
     with open(file_path, "r", encoding="utf-8") as file:
         file_content = file.read()
     # Replace the target string
-    replacement = f"{start}\n{content}\n{end}"
+    if add_new_line is True:
+        replacement = f"{start}\n{content}\n{end}"
+    else:
+        replacement = f"{start}{content}{end}"
     regex = rf"{start}([\s\S]*?){end}"
     file_content = re.sub(regex, replacement, file_content, re.DOTALL)
     # Write the file out again
@@ -1269,7 +1379,7 @@ def add_in_config_schema_file(variables):
     json_schema_props = json_schema["properties"]
     updated = False
     for key, variable in variables:
-        prev_val = json_schema_props[key]
+        prev_val = json_schema_props.get(key, "")
         json_schema_props[key] = variable
         if prev_val != variable:
             updated = True
@@ -1277,6 +1387,7 @@ def add_in_config_schema_file(variables):
     if updated is True:
         with open(CONFIG_JSON_SCHEMA, "w", encoding="utf-8") as outfile:
             json.dump(json_schema, outfile, indent=4, sort_keys=True)
+            outfile.write("\n")
 
 
 def copy_md_file(source_file, target_file):
@@ -1410,7 +1521,8 @@ def finalize_doc_build():
     # Copy README.md into /docs/index.md
     target_file = f"{REPO_HOME}{os.path.sep}docs{os.path.sep}index.md"
     copy_md_file(
-        f"{REPO_HOME}{os.path.sep}README.md", target_file,
+        f"{REPO_HOME}{os.path.sep}README.md",
+        target_file,
     )
     # Split README sections into individual files
     moves = [
@@ -1462,27 +1574,12 @@ def finalize_doc_build():
     )
     # Remove link to online doc
     replace_in_file(
-        target_file, "<!-- online-doc-start -->", "<!-- online-doc-end -->", "",
+        target_file,
+        "<!-- online-doc-start -->",
+        "<!-- online-doc-end -->",
+        "",
     )
     replace_anchors_by_links(target_file, moves)
-    # Copy CHANGELOG.md into /docs/CHANGELOG.md
-    target_file_changelog = f"{REPO_HOME}{os.path.sep}docs{os.path.sep}CHANGELOG.md"
-    copy_md_file(
-        f"{REPO_HOME}{os.path.sep}CHANGELOG.md", target_file_changelog,
-    )
-    # Copy CONTRIBUTING.md into /docs/contributing.md
-    target_file_contributing = (
-        f"{REPO_HOME}{os.path.sep}docs{os.path.sep}contributing.md"
-    )
-    copy_md_file(
-        f"{REPO_HOME}{os.path.sep}.github{os.path.sep}CONTRIBUTING.md",
-        target_file_contributing,
-    )
-    # Copy LICENSE into /docs/licence.md
-    target_file_license = f"{REPO_HOME}{os.path.sep}docs{os.path.sep}license.md"
-    copy_md_file(
-        f"{REPO_HOME}{os.path.sep}LICENSE", target_file_license,
-    )
     # Copy mega-linter-runner/README.md into /docs/mega-linter-runner.md
     target_file_readme_runner = (
         f"{REPO_HOME}{os.path.sep}docs{os.path.sep}mega-linter-runner.md"
@@ -1566,6 +1663,7 @@ def generate_json_schema_enums():
     )
     with open(DESCRIPTOR_JSON_SCHEMA, "w", encoding="utf-8") as outfile:
         json.dump(json_schema, outfile, indent=2, sort_keys=True)
+        outfile.write("\n")
     # Update list of descriptors and linters in configuration schema
     descriptors, _linters_by_type = list_descriptors_for_build()
     linters = megalinter.linter_factory.list_all_linters()
@@ -1577,6 +1675,7 @@ def generate_json_schema_enums():
     json_schema["definitions"]["enum_linter_keys"]["enum"] = [x.name for x in linters]
     with open(CONFIG_JSON_SCHEMA, "w", encoding="utf-8") as outfile:
         json.dump(json_schema, outfile, indent=2, sort_keys=True)
+        outfile.write("\n")
 
 
 # Collect linters info from linter url, later used to build link preview card within linter documentation
@@ -1749,12 +1848,19 @@ def manage_output_variables():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        force=True,
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[logging.StreamHandler(sys.stdout)],
-    )
+    try:
+        logging.basicConfig(
+            force=True,
+            level=logging.INFO,
+            format="%(asctime)s [%(levelname)s] %(message)s",
+            handlers=[logging.StreamHandler(sys.stdout)],
+        )
+    except ValueError:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s [%(levelname)s] %(message)s",
+            handlers=[logging.StreamHandler(sys.stdout)],
+        )
 
     # noinspection PyTypeChecker
     collect_linter_previews()
