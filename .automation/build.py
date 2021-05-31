@@ -1129,7 +1129,9 @@ def update_mkdocs_and_workflow_yml_with_flavors():
 def update_docker_pulls_counter():
     logging.info("Fetching docker pull counters on flavors images")
     total_count = 0
-    for flavor_id, _flavor_info in megalinter.flavor_factory.get_all_flavors().items():
+    all_flavors_ids = list(megalinter.flavor_factory.get_all_flavors().keys())
+    all_flavors_ids.insert(0, "all")
+    for flavor_id in all_flavors_ids:
         if flavor_id == "all":
             docker_image_url = (
                 "https://hub.docker.com/v2/repositories/nvuillam/mega-linter"
