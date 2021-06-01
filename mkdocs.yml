@@ -45,6 +45,7 @@ extra:
   generator: false
 nav:
   - "Home": "index.md"
+  # nav-start
   - "Quick Start": "quick-start.md"
   - "Installation": "installation.md"
   - "Configuration": "configuration.md"
@@ -293,6 +294,7 @@ nav:
       - "swift": "flavors/swift.md"
       - "terraform": "flavors/terraform.md"
 # flavors-end
+  # nav-resume
   - "Run locally": "mega-linter-runner.md"
   - "Badge": "badge.md"
   - "List of linters": "all_linters.md"
@@ -301,7 +303,10 @@ nav:
   - "Special thanks": "special-thanks.md"
   - "Mega-Linter vs Super-Linter": "mega-linter-vs-super-linter.md"
   - "Contribute":
+    # contribute-start
     - "How-to Contribute": "how-to-contribute.md"
     - "Contributing Guide": "contributing.md"
+# contribute-end
   - "License": "license.md"
   - "Changelog": "CHANGELOG.md"
+  # nav-end
