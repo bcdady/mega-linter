@@ -7,9 +7,6 @@ on:
       - master
       - main
       - AutoUpdate
-  # Automatically run every day at midnight
-  schedule:
-    - cron: "0 0 * * *"
 
 ###############
 # Set the Job #
@@ -80,20 +77,3 @@ jobs:
             docs
             report
 
-      # Create pull request if there are updates
-      - name: Create Pull Request
-        id: cpr
-        if: steps.compute_versions.outputs.has_updated_versions == 1
-        uses: peter-evans/create-pull-request@v3.10.0
-        with:
-          token: ${{ secrets.PAT }}
-          author: "Nicolas Vuillamy <nicolas.vuillamy@gmail.com>"
-          commit-message: "[automation] Auto-update linters version, help and documentation"
-          delete-branch: true
-          title: "[automation] Auto-update linters version, help and documentation"
-          body: "[automation] Auto-update linters version, help and documentation"
-          labels: dependencies,automerge
-      - name: Create PR output
-        run: |
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
